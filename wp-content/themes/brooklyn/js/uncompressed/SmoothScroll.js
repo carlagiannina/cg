@@ -8,9 +8,9 @@
 //  - Justin Force     (Resurect)
 
 // Scroll Variables (tweakable)
-var framerate = 150; // [Hz]
-var animtime  = 800; // [px]
-var stepsize  = 80; // [px]
+var framerate = 50; // [Hz]
+var animtime  = 400; // [px]
+var stepsize  = 120; // [px]
 
 // Pulse (less tweakable)
 // ratio of "tail" to "acceleration"

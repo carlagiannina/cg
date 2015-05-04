@@ -25,7 +25,7 @@ $header_style = ( !empty($header_style) && $header_style != 'global' ) ? $header
                 <?php endif; ?>
                     
                 <div class="entry-meta">
-                    <?php edit_post_link( __( 'Edit', 'unitedthemes' ), '<span class="edit-link"><i class="fa fa-pencil-square-o"></i>', '</span>' ); ?>
+                    <?php edit_post_link( esc_html__( 'Edit', 'unitedthemes' ), '<span class="edit-link"><i class="fa fa-pencil-square-o"></i>', '</span>' ); ?>
                 </div>                                  
             </header>
     	</div><!-- .page-header -->
@@ -33,43 +33,43 @@ $header_style = ( !empty($header_style) && $header_style != 'global' ) ? $header
                         
         <div class="entry-content clearfix">
         	<div class="grid-100 mobile-grid-100 tablet-grid-100">		    		
-            	<h3 class="ut-archive-template-title"><?php _e('Filter by Tags', 'unitedthemes') ?></h3> 
+            	<h3 class="ut-archive-template-title"><?php esc_html_e('Filter by Tags', 'unitedthemes') ?></h3> 
                 	<div class="ut-archive-tags clearfix">
                     	<?php wp_tag_cloud('orderby=count&number=50'); ?> 
                     </div><!-- .archive-tags -->
 			</div><!-- .grid-100 -->
                                                                                          
             <div class="grid-33 mobile-grid-100 tablet-grid-50">
-            	<h3 class="ut-archive-template-title"><?php _e('Archive by Day', 'unitedthemes') ?></h3>
+            	<h3 class="ut-archive-template-title"><?php esc_html_e('Archive by Day', 'unitedthemes') ?></h3>
                 	<ul class="ut-daily-archive-list">
                     	<?php wp_get_archives('type=daily'); ?>  
                     </ul><!-- .daily-archive-list -->
                     
-                 <h3 class="ut-archive-template-title"><?php _e('Archive By Month', 'unitedthemes') ?></h3>
+                 <h3 class="ut-archive-template-title"><?php esc_html_e('Archive By Month', 'unitedthemes') ?></h3>
                  	<ul class="ut-monthly-archive-list">
                     	<?php wp_get_archives('type=monthly'); ?>  
                      </ul><!-- .monthly-archive-list -->
                                              
-                 <h3 class="ut-archive-template-title"><?php _e('Archive by Year', 'unitedthemes') ?></h3>
+                 <h3 class="ut-archive-template-title"><?php esc_html_e('Archive by Year', 'unitedthemes') ?></h3>
                  	<ul class="ut-yearly-archive-list">
                     	<?php wp_get_archives('type=yearly'); ?>  
                     </ul><!-- .yearly-archive-list -->                            
 			</div><!-- .grid-33 -->
                     
             <div class="grid-33 mobile-grid-100 tablet-grid-50">        
-        		<h3 class="ut-archive-template-title"><?php _e('Contributors', 'unitedthemes') ?></h3>
+        		<h3 class="ut-archive-template-title"><?php esc_html_e('Contributors', 'unitedthemes') ?></h3>
                 	<ul class="ut-contributors-archive-list">
                     	<?php wp_list_authors('show_fullname=1&optioncount=1&orderby=post_count&order=DESC&number=3'); ?>  
                     </ul><!-- .contributors-archive-list -->    
                     
-                <h3 class="ut-archive-template-title"><?php _e('Categories', 'unitedthemes') ?></h3>
+                <h3 class="ut-archive-template-title"><?php esc_html_e('Categories', 'unitedthemes') ?></h3>
                 	<ul class="ut-categories-archive-list">
                     	<?php wp_list_categories('orderby=name&title_li='); ?>   
                     </ul><!-- .categories-archive-list --> 
             </div><!-- .grid-33 -->
                      
             <div class="grid-33 mobile-grid-100 tablet-grid-100">
-	            <h3 class="ut-archive-template-title"><?php _e('Latest Posts', 'unitedthemes') ?></h3>
+	            <h3 class="ut-archive-template-title"><?php esc_html_e('Latest Posts', 'unitedthemes') ?></h3>
     	            <ul class="ut-latest-posts-list">
         	            <?php wp_get_archives('type=postbypost&limit=50'); ?>  
                     </ul><!-- .latest-posts-list --> 

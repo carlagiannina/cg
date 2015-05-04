@@ -6,7 +6,7 @@
 ?>
 <div class="grid-100 tablet-grid-100 mobile-grid-100">
 	<div class="author-info clearfix">
-    <h3 class="author-title"><span><?php printf( __( 'About the Author', 'unitedthemes' ), get_the_author() ); ?></span></h3>
+    <h3 class="author-title"><span><?php printf( esc_html__( 'About the Author', 'unitedthemes' ), get_the_author() ); ?></span></h3>
         <div class="author-description">
         
         	 <figure class="author-avatar">
@@ -17,7 +17,7 @@
             	<span class="the-author"><?php the_author(); ?></span> 
                 <?php the_author_meta( 'description' ); ?>
                 <a class="author-link" href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>" rel="author">
-                    <?php printf( __( 'View all posts by %s', 'unitedthemes' ), get_the_author() ); ?><i class="fa fa-chevron-circle-right"></i>
+                    <?php printf( esc_html__( 'View all posts by %s', 'unitedthemes' ), get_the_author() ); ?><i class="fa fa-chevron-circle-right"></i>
                 </a>
             </span>
             

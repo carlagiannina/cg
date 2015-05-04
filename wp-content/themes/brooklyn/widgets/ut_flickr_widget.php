@@ -14,7 +14,7 @@ class WP_Widget_Flickr extends WP_Widget {
 	
 	function __construct() {
 		$widget_ops = array('classname' => 'ut_widget_flickr', 'description' => __( 'Displays Flickr images by user or tags.', 'unitedthemes') );
-		parent::__construct('ut_flickr', __('UnitedThemes - Flickrstream', 'unitedthemes'), $widget_ops);
+		parent::__construct('ut_flickr', __('United Themes - Flickrstream', 'unitedthemes'), $widget_ops);
 		$this->alt_option_name = 'ut_widget_flickr';
 	}
 

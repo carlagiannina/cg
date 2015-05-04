@@ -2814,7 +2814,7 @@ At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergr
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key>ut_parallax_image</wp:meta_key>
-			<wp:meta_value><![CDATA[a:3:{s:17:"background-repeat";s:9:"no-repeat";s:15:"background-size";s:5:"cover";s:16:"background-image";s:91:"http://beta.unitedthemes.com/onepage/wp-content/uploads/2013/10/8860696188_75d29ec7c3_b.jpg";}]]></wp:meta_value>
+			<wp:meta_value><![CDATA[]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key>ut_overlay_pattern</wp:meta_key>
@@ -2834,7 +2834,7 @@ At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergr
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key>ut_section_skin</wp:meta_key>
-			<wp:meta_value><![CDATA[light]]></wp:meta_value>
+			<wp:meta_value><![CDATA[dark]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key>ut_parallax_section</wp:meta_key>

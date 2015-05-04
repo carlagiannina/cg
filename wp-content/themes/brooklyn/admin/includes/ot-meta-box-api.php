@@ -64,7 +64,7 @@ if ( ! class_exists( 'OT_Meta_Box' ) ) {
      * @since     1.0
      */
     function build_meta_box( $post, $metabox ) {
-      
+            
       echo '<div class="ot-metabox-wrapper">';
            
         /* Use nonce for verification */
@@ -75,7 +75,34 @@ if ( ! class_exists( 'OT_Meta_Box' ) ) {
       
         /* loop through meta box fields */
         foreach ( $this->meta_box['fields'] as $field ) {
-        
+            
+          /* inject meta panel */
+          if( get_post_type($post->ID) == 'portfolio' ) {
+            
+                /* options to skip */
+                $option_to_skip = array(
+                    'ut_page_type'
+                );
+                
+                if( in_array( $field['id'] , $option_to_skip ) ) {                    
+                    continue;                
+                }
+                
+                /* options to inject */
+                $option_to_inject = array(
+                    'ut_page_hero_style' => 'ut_portfolio_hero_style',
+                    'ut_page_hero_align' => 'ut_portfolio_caption_align',
+                    'ut_section_slogan'  => 'ut_page_slogan'
+                );
+                
+                if( array_key_exists( $field['id'] , $option_to_inject ) ) {                    
+                    /* overwrite field ID */
+                    $field['id'] = $option_to_inject[$field['id']];          
+                }
+                
+          
+          }  
+            
           /* get current post meta data */
           $field_value = get_post_meta( $post->ID, $field['id'], true );
           
@@ -89,8 +116,10 @@ if ( ! class_exists( 'OT_Meta_Box' ) ) {
             'type'              => $field['type'],
             'field_id'          => $field['id'],
             'field_name'        => $field['id'],
+            'field_toplevel'    => isset( $field['toplevel'] ) && $field['toplevel'] ? $field['toplevel'] : '',
             'field_value'       => $field_value,
             'field_desc'        => isset( $field['desc'] ) ? $field['desc'] : '',
+            'field_htmldesc'    => isset( $field['htmldesc'] ) ? $field['htmldesc'] : '',
             'field_std'         => isset( $field['std'] ) ? $field['std'] : '',
             'field_rows'        => isset( $field['rows'] ) && ! empty( $field['rows'] ) ? $field['rows'] : 10,
             'field_post_type'   => isset( $field['post_type'] ) && ! empty( $field['post_type'] ) ? $field['post_type'] : 'post',
@@ -103,20 +132,71 @@ if ( ! class_exists( 'OT_Meta_Box' ) ) {
             'meta'              => true
           );
           
-          /* only allow simple textarea due to DOM issues with wp_editor() */
+          /* only allow simple textarea due to DOM issues with wp_editor() 
           if ( $_args['type'] == 'textarea' )
-            $_args['type'] = 'textarea-simple';
+            $_args['type'] = 'textarea-simple';*/
           
-		   $section_class = !empty($field["section_class"]) ? $field["section_class"] : '';
+          
+		  $section_class = !empty($field["section_class"]) ? $field["section_class"] : '';
+          $metapanel = !empty($field["metapanel"]) ? 'data-panel="' . $field["metapanel"] . '"' : '';
 		  
           /* option label */
-          echo '<div class="format-settings ' . $section_class . '">';
+          echo '<div id="setting_'.$_args['field_id'].'" class="format-settings ' . $section_class . '" ' . $metapanel . '>';
             
             /* don't show title with textblocks */
-            if ( $_args['type'] != 'textblock' && ! empty( $field['label'] ) ) {
+            if ( $_args['type'] != 'radio_group_button' && $_args['type'] != 'textblock' && ! empty( $field['label'] ) ) {
 			  
 			  echo '<div class="format-setting-label">';
-                echo '<label for="' . $_args['field_id'] . '" class="label">' . $field['label'] . '</label>';
+                
+                if( isset($field['needsprefix']) && $field['needsprefix'] ) {
+                    
+                    global $post_ID;                    
+                    
+                    if( get_post_type($post_ID) == 'page' ) {
+            
+                        $prefix = __('Page / Section ' , 'unitedthemes');
+                        
+                    } elseif( get_post_type($post_ID) == 'portfolio' ) {
+                        
+                        $prefix = __('Portfolio Page ' , 'unitedthemes');
+                        
+                    } elseif( get_post_type($post_ID) == 'post' ) {
+                        
+                        $prefix = __('Post Page ' , 'unitedthemes');
+                    
+                    } else {
+                        
+                        $prefix = __('Page ' , 'unitedthemes');
+                    
+                    }
+                    
+                
+                } else {
+                    
+                    $prefix = NULL;
+                    
+                }
+                
+                echo '<h3 class="label">' . $prefix . $field['label'] . '</h3>';
+                
+                /* description */
+                if( ( !empty($field['desc']) && $field['type'] != 'textblock' ) || ( isset($field['screenshot']) && $field['screenshot']) ) {
+                    
+                    echo '<div class="description">';
+                    
+                    echo htmlspecialchars_decode( $field['desc'] );
+                    
+                    if( isset($field['screenshot']) && $field['screenshot'] ) {
+                        
+                        echo '<br /><a href="#" class="ut-admin-tooltip"> '.__('Learn more about:','unitedthemes').' '.$field['label'].' <span> <img class="callout" src="'. THEME_WEB_ROOT .'/images/iMac-Flat-Mockup.png" /> </span></a>';
+                        //echo '<br /><a href="#" class="ut-admin-tooltip"> '.__('Learn more about:','unitedthemes').' '.$field['label'].' <span> <img class="callout" src="'. THEME_WEB_ROOT . '/admin/assets/images/screenshots/setting_' . $field['id'] .'.jpg" /> </span></a>';
+                    
+                    }                    
+                    
+                    echo '</div>';
+                    
+                }
+                
               echo '</div>';
             }
                                    
