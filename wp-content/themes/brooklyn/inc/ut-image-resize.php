@@ -113,7 +113,7 @@ if(!class_exists('UT_Resize')) {
                 $destfilename = "{$upload_dir}{$dst_rel_path}-{$suffix}.{$ext}";
 								
                 if ( ! $dims || ( true == $crop && false == $upscale && ( $dst_w < $width || $dst_h < $height ) ) ) {
-                    // Can't resize, so return original url
+                    // Can't resize, so return false saying that the action to do could not be processed as planned.
                     return $url;
                 }
                 // Else check if cache exists.
@@ -128,7 +128,7 @@ if(!class_exists('UT_Resize')) {
                     if ( is_wp_error( $editor ) || is_wp_error( $editor->resize( $width, $height, $crop ) ) )
                         return false;
 						
-					$resized_file = $editor->set_quality(85);
+					$resized_file = $editor->set_quality(79);
 					$resized_file = $editor->generate_filename( 'w' . $width . 'h' . $height );
                     $resized_file = $editor->save($resized_file);
 
@@ -171,7 +171,7 @@ if(!class_exists('UT_Resize')) {
 				$retina_width = $width*2;
 				$retina_height = $height*2;
 				$editor = wp_get_image_editor($img_path);
-				$editor->set_quality(85);
+				$editor->set_quality(79);
 				$editor->resize( $retina_width, $retina_height, $crop );								
 				$filename = $editor->generate_filename( 'w' . $width . 'h' . $height . '@2x'  );
 				$editor = $editor->save($filename); 

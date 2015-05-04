@@ -1,32 +1,17 @@
 <?php
 
 /*
- * The header for our theme
- * by www.unitedthemes.com
+ * www.carlagiannina.com *
  */
 
 ?>
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
-<!--
-##########################################################################################
 
-BROOKLYN THEME BY UNITED THEMES 
-WWW.UNITEDTHEMES.COM
-
-BROOKLYN THEME DESIGNED BY MARCEL MOERKENS
-BROOKLYN THEME DEVELOPED BY MARCEL MOERKENS & MATTHIAS NETTEKOVEN 
-
-POWERED BY UNITED THEMES - WEB DEVELOPMENT FORGE EST.2011
-
-COPYRIGHT 2011 - 2015 ALL RIGHTS RESERVED BY UNITED THEMES
-
-##########################################################################################
--->
 <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    
+    <meta name="description" content="Carla Giannina | UX / Visual Designer. I am designer based in NYC who loves to create beautiful and functional products. Take a look my portfolio!">      
     <?php ut_meta_hook(); //action hook, see inc/ut-theme-hooks.php ?>
     
         
@@ -126,8 +111,37 @@ $scrollspeed 	= ot_get_option('ut_scrollto_speed'  , '650');
 */
 
 if( ot_get_option('ut_use_image_loader') == 'on' ) : 
+
+	$loader_for = ot_get_option('ut_use_image_loader_on');
+	$loader_match = false;
 	
-	if( ut_dynamic_conditional('ut_use_image_loader_on') ) : ?>
+	if( !empty($loader_for) && is_array($loader_for) ) :
+	
+		foreach( $loader_for as $key => $conditional ) {
+		
+			if( $conditional() ) {
+		
+				$loader_match = true;
+				
+				/* front page gets handeled as a page too */
+				if( $conditional == 'is_page' && is_front_page() ) {
+					
+					$loader_match = false;
+						
+				} else {
+				
+					/* we have a match , so we can stop the loop */
+					break;
+				
+				}
+				
+			}
+		
+		}
+	
+	endif;
+	
+	if( $loader_match ) : ?>
 	
 	<div class="ut-loader-overlay"></div>
 
@@ -153,7 +167,7 @@ $ut_navigation_skin = ot_get_option('ut_navigation_skin' , 'ut-header-light');
 /* visibility */
 $headerstate = NULL;
 
-if( is_home() || is_front_page() || is_singular('portfolio') || get_post_meta( get_the_ID() , 'ut_activate_page_hero' , true ) == 'on' ) {
+if( is_home() || is_front_page() || is_singular('portfolio') ) {
 	
 	if( ot_get_option('ut_navigation_state' , 'off') == 'off' ) {
 		$headerstate = 'ha-header-hide';
@@ -167,19 +181,16 @@ $logo_push = ( $navigation_width == 'fullwidth' ) ? 'push-5' : '';
 $navigation_pull = ( $navigation_width == 'fullwidth' ) ? 'pull-5' : '';
 			
 /* main navigation settings*/
-$mainmenu = array('echo'             => false,
-                  'container'        => 'nav',
+$mainmenu = array('container'        => 'nav',
                   'container_id'     => 'navigation',
                   'fallback_cb' 	 => 'ut_default_menu',
                   'container_class'  => 'grid-80 hide-on-tablet hide-on-mobile ' . $navigation_pull ,
                   'items_wrap'       => '<ul id="%1$s" class="%2$s">%3$s</ul>',
                   'theme_location'   => 'primary', 
-                  'walker'           => new ut_menu_walker()
-);
+                  'walker'           => new ut_menu_walker());
 
 /* mobile navigation settings */						 
-$mobilemenu = array('echo'              => false,
-                    'container'        	=> 'nav',
+$mobilemenu = array('container'        	=> 'nav',
                     'container_id'    	=> 'ut-mobile-nav',
                     'menu_id'		   	=> 'ut-mobile-menu',
                     'menu_class'	   	=> 'ut-mobile-menu',
@@ -187,16 +198,12 @@ $mobilemenu = array('echo'              => false,
                     'container_class'  	=> 'ut-mobile-menu mobile-grid-100 tablet-grid-100 hide-on-desktop',
                     'items_wrap'       	=> '<div class="ut-scroll-pane"><ul id="%1$s" class="%2$s">%3$s</ul></div>',
                     'theme_location'   	=> 'primary', 
-                    'walker'           	=> new ut_menu_walker()
-);
-
-/* check if current page has an option tp show a hero */
-$ut_activate_page_hero = get_post_meta( get_the_ID() , 'ut_activate_page_hero' , true );                    				
+                    'walker'           	=> new ut_menu_walker());				
 
 ?>
 
 <!-- header section -->
-<header id="header-section" class="ha-header <?php echo $navigation_width; ?> <?php echo ( ot_get_option('ut_navigation_state' , 'off') == 'on_transparent' && ( is_home() || is_front_page() || is_singular('portfolio') || ( is_page() && $ut_activate_page_hero == 'on' ) ) ) ? 'ha-transparent' : $ut_navigation_skin; ?> <?php echo $headerstate; ?>">
+<header id="header-section" class="ha-header <?php echo $navigation_width; ?> <?php echo ( ot_get_option('ut_navigation_state' , 'off') == 'on_transparent' && ( is_home() || is_front_page() || is_singular('portfolio') ) ) ? 'ha-transparent' : $ut_navigation_skin; ?> <?php echo $headerstate; ?>">
     
     <?php if( $navigation_width == 'centered' ) :?>
     
@@ -211,10 +218,8 @@ $ut_activate_page_hero = get_post_meta( get_the_ID() , 'ut_activate_page_hero' ,
                 
 					<?php if ( get_theme_mod( 'ut_site_logo' ) ) : ?>
                         
-                        <?php 
-                        
-                        $sitelogo = ( ( ( is_page() && ( $ut_activate_page_hero == 'off' || empty($ut_activate_page_hero) ) ) || is_single() ) && !is_singular('portfolio') && !is_front_page() && get_theme_mod( 'ut_site_logo_alt' ) ) ? get_theme_mod( 'ut_site_logo_alt' ) : get_theme_mod( 'ut_site_logo' );
-                        $alternate_logo = get_theme_mod( 'ut_site_logo_alt' ) ? get_theme_mod( 'ut_site_logo_alt' ) : get_theme_mod( 'ut_site_logo' ) ;?>
+                        <?php $sitelogo = ( (is_page() || is_single() ) && !is_singular('portfolio') && !is_front_page() && get_theme_mod( 'ut_site_logo_alt' ) ) ? get_theme_mod( 'ut_site_logo_alt' ) : get_theme_mod( 'ut_site_logo' ); ?>
+                        <?php $alternate_logo = get_theme_mod( 'ut_site_logo_alt' ) ? get_theme_mod( 'ut_site_logo_alt' ) : get_theme_mod( 'ut_site_logo' ) ;?>
                         
                         <div class="site-logo">
                             <a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><img data-altlogo="<?php echo $alternate_logo; ?>" src="<?php echo $sitelogo; ?>" alt="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>"></a>
@@ -230,46 +235,15 @@ $ut_activate_page_hero = get_post_meta( get_the_ID() , 'ut_activate_page_hero' ,
                 
                 </div>    
                 
-                <?php
-                
-                /* main and mobile menu cache */
-                if( ot_get_option('ut_use_cache' , 'off') == 'on' ) {
-                    
-                    $main_menu      = get_transient('ut_main_menu' . get_the_ID() );
-                    $mobile_menu    = get_transient('ut_mobile_menu' . get_the_ID() );
-                    $cacheTime      = ot_get_option('ut_cache_ltime' , '10');
-                    
-                    if ($main_menu === false) {
-                        
-                        $main_menu = wp_nav_menu( $mainmenu );                        
-                        set_transient('ut_main_menu' . get_the_ID() , $main_menu, 60*$cacheTime);
-                        
-                    } 
-                    
-                    if ($mobile_menu === false) {
-                        
-                        $mobile_menu = wp_nav_menu( $mobilemenu );
-                        set_transient('ut_mobile_menu' . get_the_ID() , $mobile_menu, 60*$cacheTime);
-                        
-                    } 
-                                       
-                    
-                } else {
-                    
-                    $main_menu   = wp_nav_menu( $mainmenu );
-                    $mobile_menu = wp_nav_menu( $mobilemenu );
-                    
-                } ?>                
-                
                 <?php if ( has_nav_menu( 'primary' ) ) : ?>
                 	
-					<?php echo $main_menu; ?>
+					<?php wp_nav_menu( $mainmenu ); ?>
                     
                     <div class="ut-mm-trigger tablet-grid-50 mobile-grid-50 hide-on-desktop">
                     	<button class="ut-mm-button"></button>
                     </div>
                     
-					<?php echo $mobile_menu; ?>
+					<?php wp_nav_menu( $mobilemenu ); ?>
                                         
                 <?php endif; ?>
                                                         
@@ -286,7 +260,31 @@ $ut_activate_page_hero = get_post_meta( get_the_ID() , 'ut_activate_page_hero' ,
 
 <div class="clear"></div>
 
-<?php get_template_part( 'template-part', 'hero' ); ?>       
+<?php
+
+if( is_front_page() || is_home() ) : 
+    
+    /*
+    |--------------------------------------------------------------------------
+    | hero output for blog and front page
+    |--------------------------------------------------------------------------
+    */    
+    get_template_part( 'template-part', 'hero' );
+
+elseif( is_singular('portfolio')  ) : 
+
+    /*
+    |--------------------------------------------------------------------------
+    | hero output for single portfolio pages
+    |--------------------------------------------------------------------------
+    */ 
+    get_template_part( 'template-part', 'portfolio-hero' );    
+
+endif; 
+
+?>
+
+<div class="clear"></div>
 
 <?php ut_before_content_hook(); // action hook, see inc/ut-theme-hooks.php ?>
 

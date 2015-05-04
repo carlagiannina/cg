@@ -17,15 +17,15 @@ $header_style = ot_get_option('ut_global_headline_style'); ?>
         <p class="lead">
         <?php if ( is_home() && current_user_can( 'publish_posts' ) ) : ?>
 
-			<?php printf( esc_html__( 'Ready to publish your first post? <a href="%1$s">Get started here</a>.', 'unitedthemes' ), esc_url( admin_url( 'post-new.php' ) ) ); ?>
+			<?php printf( __( 'Ready to publish your first post? <a href="%1$s">Get started here</a>.', 'unitedthemes' ), esc_url( admin_url( 'post-new.php' ) ) ); ?>
 
 		<?php elseif ( is_search() ) : ?>
 
-			<?php esc_html_e( 'Sorry, but nothing matched your search terms. Please try again with some different keywords.', 'unitedthemes' ); ?>
+			<?php _e( 'Sorry, but nothing matched your search terms. Please try again with some different keywords.', 'unitedthemes' ); ?>
 
 		<?php else : ?>
 
-			<?php esc_html_e( 'It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help.', 'unitedthemes' ); ?>
+			<?php _e( 'It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help.', 'unitedthemes' ); ?>
 
 		<?php endif; ?>
         </p>

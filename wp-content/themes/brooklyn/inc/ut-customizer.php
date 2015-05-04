@@ -106,10 +106,10 @@ if( !function_exists('unitedthemes_customize_register') ) {
 		) );
 				
 		/* add setting for custom logo */ 
-		$wp_customize->add_setting('ut_site_logo');
-		$wp_customize->add_setting('ut_site_logo_alt');
-        $wp_customize->add_setting('ut_site_logo_retina');
-		$wp_customize->add_setting('ut_site_logo_alt_retina');		
+		$wp_customize->add_setting( 'ut_site_logo' );
+		$wp_customize->add_setting( 'ut_site_logo_alt' );
+        $wp_customize->add_setting( 'ut_site_logo_retina' );
+		$wp_customize->add_setting( 'ut_site_logo_alt_retina' );		
 		
 		/* add control for custom logo */ 
 		$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'ut_site_logo', array(

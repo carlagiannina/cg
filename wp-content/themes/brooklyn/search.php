@@ -17,7 +17,7 @@ $header_style = ot_get_option('ut_global_headline_style'); ?>
         
     <div class="grid-70 prefix-15 mobile-grid-100 tablet-grid-100">
         <header class="page-header <?php echo $header_style;?>">
-            <h1 class="page-title"><span><?php printf( esc_html__( 'Search Results for: %s', 'unitedthemes' ), '' . get_search_query() . '' ); ?></span></h1>                  
+            <h1 class="page-title"><span><?php printf( __( 'Search Results for: %s', 'unitedthemes' ), '' . get_search_query() . '' ); ?></span></h1>                  
         </header>
     </div><!-- .page-header -->
         

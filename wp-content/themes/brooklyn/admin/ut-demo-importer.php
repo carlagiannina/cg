@@ -90,7 +90,8 @@ if ( !function_exists( 'ut_view_updater' ) ) {
 		<div id="ut-importer" class="wrap">
 		
 			<div class="icon32" id="icon-options-general"><br></div>
-            <h2><?php _e( 'Theme Demo Importer' , 'unitedthemes' ); ?></h2>
+            <h2><?php _e( 'Theme Demo Importer' , 'unitedthemes' ); ?><span class="xml-count">6</span></h2>
+
             
 			<?php 
 			
@@ -117,7 +118,7 @@ if ( !function_exists( 'ut_view_updater' ) ) {
 			} else {
 			
 				/* wp-content folder not writeable  */ 
-				if( !ut_is_writable( ABSPATH . 'wp-content/' ) ) :
+				if( !ut_is_writable( ABSPATH . 'wp-content/uploads/' ) ) :
 					
 					echo '<div class="error"><p>';
 					
@@ -178,20 +179,9 @@ if ( !function_exists( 'ut_view_updater' ) ) {
                 <label class="ut-choose-demo-img" for="demo_two">
                     <img src="<?php echo THEME_WEB_ROOT; ?>/admin/assets/images/importer/brooklyn-demo2.jpg" />                    
                 </label>
-                <h3 class="xml-name">Brooklyn Demo 2a (dark skin)</h3>
+                <h3 class="xml-name">Brooklyn Demo 2</h3>
                	<div class="xml-actions">
                 	<a target="_blank" href="http://themeforest.unitedthemes.com/wpversions/brooklyn/extended" class="button button-primary"><?php _e('Preview' , 'unitedthemes'); ?></a>
-                </div>
-            </div>
-            
-            <div class="xml">
-                <input type="radio" id="demo_two_b" name="ut_demo_file" value="demo_two_b" class="ut-choose-demo-radio">
-                <label class="ut-choose-demo-img" for="demo_two_b">
-                    <img src="<?php echo THEME_WEB_ROOT; ?>/admin/assets/images/importer/brooklyn-demo2b.jpg" />                    
-                </label>
-                <h3 class="xml-name">Brooklyn Demo 2b (light skin)</h3>
-               	<div class="xml-actions">
-                	<a target="_blank" href="http://themeforest.unitedthemes.com/wpversions/brooklyn/extended/?skin=light" class="button button-primary"><?php _e('Preview' , 'unitedthemes'); ?></a>
                 </div>
             </div>
             
@@ -237,7 +227,9 @@ if ( !function_exists( 'ut_view_updater' ) ) {
                 <div class="xml-actions">
                 	<a target="_blank" href="http://themeforest.unitedthemes.com/wpversions/brooklyn/demo6" class="button button-primary"><?php _e('Preview' , 'unitedthemes'); ?></a>
                 </div>
-            </div>                    
+            </div>
+                        
+            <div class="clear"></div>
             
             <div class="xml">
                 <input type="radio" id="demo_seven" name="ut_demo_file" value="demo_seven" class="ut-choose-demo-radio">
@@ -249,26 +241,15 @@ if ( !function_exists( 'ut_view_updater' ) ) {
                 	<a target="_blank" href="http://themeforest.unitedthemes.com/wpversions/brooklyn/demo7" class="button button-primary"><?php _e('Preview' , 'unitedthemes'); ?></a>
                 </div>
             </div>
-            
+                        
             <div class="xml">
                 <input type="radio" id="demo_eight" name="ut_demo_file" value="demo_eight" class="ut-choose-demo-radio">
                 <label class="ut-choose-demo-img" for="demo_eight">
                     <img src="<?php echo THEME_WEB_ROOT; ?>/admin/assets/images/importer/brooklyn-demo8.jpg" />                    
                 </label>
-                <h3 class="xml-name">Brooklyn Demo 8a (New Landing Page)</h3>
+                <h3 class="xml-name">Brooklyn Demo 8</h3>
                 <div class="xml-actions">
                 	<a target="_blank" href="http://themeforest.unitedthemes.com/wpversions/brooklyn/landing" class="button button-primary"><?php _e('Preview' , 'unitedthemes'); ?></a>
-                </div>
-            </div>            
-            
-            <div class="xml">
-                <input type="radio" id="demo_eight_b" name="ut_demo_file" value="demo_eight_b" class="ut-choose-demo-radio">
-                <label class="ut-choose-demo-img" for="demo_eight_b">
-                    <img src="<?php echo THEME_WEB_ROOT; ?>/admin/assets/images/importer/brooklyn-demo8b.jpg" />                    
-                </label>
-                <h3 class="xml-name">Brooklyn Demo 8b (Old Landing Page)</h3>
-                <div class="xml-actions">
-                    <?php _e('Not available anymore' , 'unitedthemes'); ?></a>
                 </div>
             </div>
             
@@ -292,41 +273,8 @@ if ( !function_exists( 'ut_view_updater' ) ) {
                 <div class="xml-actions">
                 	<a target="_blank" href="http://themeforest.unitedthemes.com/wpversions/brooklyn/demo10" class="button button-primary"><?php _e('Preview' , 'unitedthemes'); ?></a>
                 </div>
-            </div> 
-            
-            <div class="xml">
-                <input type="radio" id="demo_eleven" name="ut_demo_file" value="demo_eleven" class="ut-choose-demo-radio">
-                <label class="ut-choose-demo-img" for="demo_eleven">
-                    <img src="<?php echo THEME_WEB_ROOT; ?>/admin/assets/images/importer/brooklyn-demo11.jpg" />                    
-                </label>
-                <h3 class="xml-name">Brooklyn Demo 11</h3>
-                <div class="xml-actions">
-                	<a target="_blank" href="http://themeforest.unitedthemes.com/wpversions/brooklyn/demo11" class="button button-primary"><?php _e('Preview' , 'unitedthemes'); ?></a>
-                </div>
             </div>
             
-            <div class="xml">
-                <input type="radio" id="demo_twelve" name="ut_demo_file" value="demo_twelve" class="ut-choose-demo-radio">
-                <label class="ut-choose-demo-img" for="demo_twelve">
-                    <img src="<?php echo THEME_WEB_ROOT; ?>/admin/assets/images/importer/brooklyn-demo12.jpg" />                    
-                </label>
-                <h3 class="xml-name">Brooklyn Demo 12</h3>
-                <div class="xml-actions">
-                	<a target="_blank" href="http://themeforest.unitedthemes.com/wpversions/brooklyn/demo12" class="button button-primary"><?php _e('Preview' , 'unitedthemes'); ?></a>
-                </div>
-            </div>
-            
-            <div class="xml">
-                <input type="radio" id="demo_thirteen" name="ut_demo_file" value="demo_thirteen" class="ut-choose-demo-radio">
-                <label class="ut-choose-demo-img" for="demo_thirteen">
-                    <img src="<?php echo THEME_WEB_ROOT; ?>/admin/assets/images/importer/brooklyn-demo13.jpg" />                    
-                </label>
-                <h3 class="xml-name">Brooklyn Demo 13</h3>
-                <div class="xml-actions">
-                	<a target="_blank" href="http://themeforest.unitedthemes.com/wpversions/brooklyn/demo13" class="button button-primary"><?php _e('Preview' , 'unitedthemes'); ?></a>
-                </div>
-            </div>
-                        
             <div class="clear"></div>
             
             <div class="ut-import-options">
@@ -415,7 +363,7 @@ if ( !function_exists( 'ut_demo_importer' ) ) {
 		
 		/* security array for valid filenames */
 		$ut_recognized_file_names = apply_filters( 'ut_recognized_file_names', array( 
-		  'demo_one', 'demo_two' , 'demo_two_b' , 'demo_three', 'demo_four', 'demo_five', 'demo_six' , 'demo_seven' , 'demo_eight' , 'demo_eight_b' , 'demo_nine', 'demo_ten', 'demo_eleven' , 'demo_twelve' , 'demo_thirteen'
+		  'demo_one', 'demo_two', 'demo_three', 'demo_four', 'demo_five', 'demo_six' , 'demo_seven' , 'demo_eight' , 'demo_nine', 'demo_ten'
 		));
 			
 		if ( current_user_can( 'manage_options' ) && isset( $_POST['ut_import_demo_content'] ) && !empty( $_POST['ut_demo_file'] ) ) {
@@ -474,7 +422,7 @@ if ( !function_exists( 'ut_demo_importer' ) ) {
 				if( is_array($menus) ) {
 					foreach($menus as $menu) { // assign menus to theme locations
 						
-                        $main = ( $demo_file == 'demo_eight' || $demo_file == 'demo_eight_b' ) ? 'Menu 1' : 'Main';
+                        $main = ( $demo_file == 'demo_eight' ) ? 'Menu 1' : 'Main';
                                                 
                         if( $menu->name == $main ) {
 							$locations['primary'] = $menu->term_id;
@@ -494,7 +442,7 @@ if ( !function_exists( 'ut_demo_importer' ) ) {
 				$homepage 	= get_page_by_title( 'Front Page' );
 				$posts_page = get_page_by_title( 'Blog' );
 				
-                if( $demo_file == 'demo_eight' || $demo_file == 'demo_eight_b' ) {
+                if( $demo_file == 'demo_eight' ) {
                     $homepage 	= get_page_by_title( 'Frontpage' );
                 }
                 
@@ -552,9 +500,9 @@ if ( !function_exists( 'ut_demo_importer' ) ) {
 							$arrInsert["alias"] = UniteFunctionsRev::getVal($sliderParams, "alias","slider1");
 		
 							$wpdb->insert(GlobalsRevSlider::$table_sliders, $arrInsert);
-		                    $sliderID = $wpdb->insert_id;
-                           
-        					//create all slides
+							$sliderID = mysql_insert_id();
+		
+							//create all slides
 							$arrSlides = $arrSlider["slides"];
 							foreach($arrSlides as $slide){
 								
@@ -595,36 +543,20 @@ if ( !function_exists( 'ut_demo_importer' ) ) {
 				*/
 				$logo_to_demo = array(
 					'demo_one'	    => 'brooklyn-logo-dark.png', 
-					'demo_two'      => 'brooklyn-logo-light.png',
-                    'demo_two_b'    => 'brooklyn-logo-light.png',  
+					'demo_two'      => 'brooklyn-logo-light.png', 
 					'demo_three'    => 'brooklyn-logo-dark.png', 
 					'demo_four'	    => 'brooklyn-logo-light.png', 
 					'demo_five'	    => 'brooklyn-logo-light.png',
 					'demo_six'	    => 'brooklyn-logo-light.png',
 					'demo_seven'    => 'brooklyn-logo-dark.png',
 					'demo_eight'    => 'brooklyn-logo-dark.png',
-                    'demo_eight_b'  => 'brooklyn-logo-dark.png',
                     'demo_nine'     => 'brooklyn-logo-light.png',
                     'demo_ten'      => 'brooklyn-logo-dark.png',
-                    'demo_eleven'   => 'brooklyn-logo-light.png',
-                    'demo_twelve'   => 'brooklyn-logo-light.png',
-                    'demo_thirteen' => 'brooklyn-logo-default.png',
 				);
 				
 				$default_logo = THEME_WEB_ROOT . '/images/default/' . $logo_to_demo[$demo_file];
 				set_theme_mod( 'ut_site_logo' , $default_logo );
 				
-                if($demo_file == 'demo_eleven') {
-                    
-                    $logo_alt_to_demo = array(
-                        'demo_eleven'   => 'brooklyn-logo-dark.png',
-                        'demo_thirteen' => 'brooklyn-logo-alternate.png'
-                    );
-                    
-                    $default_alt_logo = THEME_WEB_ROOT . '/images/default/' . $logo_alt_to_demo[$demo_file];
-                    set_theme_mod( 'ut_site_logo_alt' , $default_alt_logo );
-                    
-                }
 				/*
 				|--------------------------------------------------------------------------
 				| Set Default Theme Color
@@ -632,20 +564,15 @@ if ( !function_exists( 'ut_demo_importer' ) ) {
 				*/
 				$color_to_demo = array(
 					'demo_one'	    => '#F1C40F', 
-					'demo_two'      => '#FF6E00',
-                    'demo_two_b'    => '#FF6E00', 
+					'demo_two'      => '#FF6E00', 
 					'demo_three'    => '#1ABC9C', 
 					'demo_four'	    => '#FF6E00', 
 					'demo_five'	    => '#EB005D',
 					'demo_six'	    => '#FDA527',
 					'demo_seven'    => '#FDA527',
-					'demo_eight'    => '#F2333A',
-                    'demo_eight_b'  => '#D94118',
+					'demo_eight'    => '#D94118',
                     'demo_nine'     => '#FDA527',
-                    'demo_ten'      => '#FDA527',
-                    'demo_eleven'   => '#008ED6',
-                    'demo_twelve'   => '#00E1FF',
-                    'demo_thirteen' => '#1abc9c'
+                    'demo_ten'      => '#FDA527'
 				);
 				update_option('ut_accentcolor', $color_to_demo[$demo_file]);				
 				
@@ -656,20 +583,15 @@ if ( !function_exists( 'ut_demo_importer' ) ) {
 				*/
 				$showcase_to_demo = array(
 					'demo_one'	    => array('Grid Gallery'), 
-					'demo_two'      => array('Grid Gallery'),
-                    'demo_two_b'    => array('Grid Gallery'),  
+					'demo_two'      => array('Grid Gallery'), 
 					'demo_three'    => array('Grid Gallery'), 
 					'demo_four'	    => array('Grid Gallery'), 
 					'demo_five'	    => array('Grid Gallery' , 'Portfolio Carousel'),
 					'demo_six'	    => array('Grid Gallery'),
 					'demo_seven'    => array('Grid Gallery'),
 					'demo_eight'    => array('Grid Gallery'),
-                    'demo_eight_b'  => array('Grid Gallery'),
                     'demo_nine'     => array('Grid Gallery' , 'Our Studio'),
-                    'demo_ten'      => array('Grid Gallery'),
-                    'demo_eleven'   => array('Grid Gallery'),
-                    'demo_twelve'   => array('Grid Gallery'),
-                    'demo_thirteen' => array('Filterable Portfolio Gallery'),
+                    'demo_eight'    => array('Grid Gallery')
 				);
 				
 				/* fetch all used taxonomies first */

@@ -5,307 +5,44 @@
 		
     $(document).ready(function(){
 		
-        /*
-        |--------------------------------------------------------------------------
-        | Icon Modal
-        |--------------------------------------------------------------------------
-        */
-        
-        var iconbutton = '',
-            iconpreview = '',
-            iconinput  = '';
-        
-        
-        $('.ut-choose-icon').click( function(event) {
-           
-            iconbutton = $(this),
-            iconinput  = iconbutton.siblings('input:text').first();
-            iconpreview = iconbutton.siblings('.ut-icon-preview');
-            
-            $(".ut-modal-option-tree").fadeIn(); 
-            
-            event.preventDefault();
-            
-        });
-        
-        $(document).on("click", ".close-ut-modal-option-tree", function(event){ 
-					
-            event.preventDefault();
-            $(".ut-modal-option-tree").fadeOut();
-            
-        });
-        
-        
-        $(document).on("click", ".ut-icon-option-tree", function(event){ 
-					
-            var icon = $(this).data('icon');
-            
-            $(iconinput).val(icon);
-            $(iconpreview).children('.ut-preview-icon').attr('class' , '').addClass('ut-preview-icon fa ' + icon);
-            $(".ut-modal-option-tree").fadeOut();
-        
-        });        
-        
-        $(document).on("click", ".ut-delete-icon", function(event){ 
-           
-           $(this).parent().children('.ut-preview-icon').attr('class' , '').addClass('ut-preview-icon fa');
-           $(this).parent().next('input').val('');
-           
-            event.preventDefault();         
-            
-        });
-        
-		
-        /*
-        |--------------------------------------------------------------------------
-        | ui select groups
-        |--------------------------------------------------------------------------
-        */
-        var adjust_second_level_options = function($options) {
-            
-            if ( $options instanceof Array ) {
-                    
-                for (var i = 0; i < $options.length; i++) {
-                  
-                    $("#"+$options[i]).trigger('change');                                       
-                    
-                }
-              
-            } else {
-                  
-                $("#"+$options).trigger('change');
-              
-            }
-            
-        }
-        
+		/* ui select groups */
 		$(".option-tree-ui-group-select").each(function(){
 			
 			var current_for = $(this).find(':selected').data('for');
-            
+			
 			$(this).children("option").each(function() {
                 
 				/* hide other elements */
 				if( $(this).data("for") !== 'current_for') {
-					
-                    var hide_options = $(this).data("for").split(',');
-                    
-                    if ( hide_options instanceof Array ) {
-                        
-                        for (var i = 0; i < hide_options.length; i++) {
-                        
-                            $("#setting_"+ hide_options[i] ).hide();
-                        
-                        }
-                    
-                    } else {
-                        
-                        $("#setting_"+ $(this).data("for") ).hide();
-                    
-                    }
-                    
+					$("#setting_"+ $(this).data("for") ).hide();
 				}
 				
             });
 			
-			var show_options = current_for.split(',');
-            
-            if ( show_options instanceof Array ) {
-                    
-                for (var i = 0; i < show_options.length; i++) {
-                  
-                    $("#setting_"+ show_options[i] ).show();
-                  
-                }
-              
-            } else {
-                  
-                $("#setting_"+ current_for ).show();
-              
-            }
+			$("#setting_"+ current_for ).show();
 			
 		});
 		
 		$(".option-tree-ui-group-select").change(function(){
 			
 			var current_for = $(this).find(':selected').data('for');
-			            
+			
 			$(this).children("option").each(function() {
-                                
+                
 				/* hide other elements */
 				if( $(this).data("for") !== 'current_for') {
-					
-                    var hide_options = $(this).data("for").split(',');
-                    
-                    if ( hide_options instanceof Array ) {
-                        
-                        for (var i = 0; i < hide_options.length; i++) {
-                        
-                            $("#setting_"+ hide_options[i] ).hide();
-                        
-                        }
-                    
-                    } else {
-                        
-                        $("#setting_"+ $(this).data("for") ).hide();
-                    
-                    }                    
-                    
+					$("#setting_"+ $(this).data("for") ).hide();
 				}
 				
             });
 			
-			var show_options = current_for.split(','),
-                second_level = [];
-            
-            if ( show_options instanceof Array ) {
-                    
-                for (var i = 0; i < show_options.length; i++) {
-                  
-                    $("#setting_"+show_options[i]).show();
-                    
-                    if( $("#"+show_options[i]).hasClass('option-tree-ui-group-select') ) {
-                        second_level.push(show_options[i]);
-                    }                    
-                    
-                }
-              
-            } else {
-                  
-                $("#setting_"+ current_for ).show();
-                if( $("#"+current_for).hasClass('option-tree-ui-group-select') ) {
-                    second_level.push(show_options[i]);
-                } 
-              
-            }
-            
-            adjust_second_level_options(second_level);
+			$("#setting_"+ current_for ).show();
 			
-		});        
+		});
 		
-        $('.ut-toplevel-select-option').trigger('change');
-        
-        /*
-        |--------------------------------------------------------------------------
-        | ui radio groups
-        |--------------------------------------------------------------------------
-        */
-                
-        $(".ot-type-radio-group").each(function(){
-            
-            var group = $(this).data('group'),
-                current_for = $("input:radio[name ='"+group+"']:checked").data('for');
-           
-            /* loop through */
-            $(this).parent().parent().find('input').each(function(){
-            
-                /* hide other elements */
-                if( $(this).data("for") !== current_for ) {
-                    
-                    var hide_options = $(this).data("for").split(',');
-                    
-                    if ( hide_options instanceof Array ) {
-                        
-                        for (var i = 0; i < hide_options.length; i++) {
-                        
-                            $("#setting_"+ hide_options[i] ).hide();
-                        
-                        }
-                    
-                    } else {
-                        
-                        $("#setting_"+ $(this).data("for") ).hide();
-                    
-                    }
-                    
-                }
-            
-            });            
-            
-            var show_options = current_for.split(',');
-            
-            if ( show_options instanceof Array ) {
-                    
-                for (var i = 0; i < show_options.length; i++) {
-                  
-                    $("#setting_"+ show_options[i] ).show();
-                  
-                }
-              
-            } else {
-                  
-                $("#setting_"+ current_for ).show();
-              
-            }
-            
-        });
-        
-        var show_hide_option_set = function( current_for ) {
-            
-            $("#setting_"+ current_for ).slideDown('fast', function() {                        
-                        
-                var $this = $(this);
-                $this.find(".option-tree-ui-group-radio").filter(':checked').trigger("change");
-                
-            }); 
-        
-        }        
-        
-        $(".option-tree-ui-group-radio").change(function(){
-            
-            var current_for = $(this).filter(':checked').data('for');
-            
-            /* loop through */
-            $(this).parent().parent().find('input').each(function(){
-            
-                /* hide other elements */
-                if( $(this).data("for") !== current_for ) {
-                    
-                    var hide_options = $(this).data("for").split(',');
-                    
-                    if ( hide_options instanceof Array ) {
-                        
-                        for (var i = 0; i < hide_options.length; i++) {
-                        
-                            $("#setting_"+ hide_options[i] ).hide();
-                        
-                        }
-                    
-                    } else {
-                        
-                        $("#setting_"+ $(this).data("for") ).hide();
-                    
-                    }
-                    
-                }
-            
-            });            
-            
-            var show_options = current_for.split(',');
-            
-            if ( show_options instanceof Array ) {
-                                    
-                for (var i = 0; i < show_options.length; i++) {                    
-                    
-                    show_hide_option_set( show_options[i] );                                   
-                  
-                }
-              
-            } else {
-                
-                show_hide_option_set( current_for );                
-              
-            }
-            
-        });
-        
 		
-        
-        /*
-        |--------------------------------------------------------------------------
-        | google font integration
-        |--------------------------------------------------------------------------
-        */
+		/* google font integration
+		================================================== */
 		var update_google_font_link = function( group ) {
 			
 			if(!group) {
@@ -491,13 +228,9 @@
 			
 		});
 		
-        
-        
-		/*
-        |--------------------------------------------------------------------------
-        | Header Styles Preview Boxes
-        |--------------------------------------------------------------------------
-        */
+		
+		/* Header Styles Preview Boxes
+		================================================== */
 		tb_position = function() {
 			var tbWindow = $('#TB_window');
 			var width = 840;
@@ -553,14 +286,508 @@
 		});	
 		
 		
+		/* Front Page Hero Settings - hide or show boxes
+		================================================== */
+		var front_header_setting = $('#ut_front_page_header_type').val();
+			
+		function show_hide_front_header_settings( setting_name ) {
+			
+			if( setting_name === 'image' ) {
+				
+				/* hide other settings*/
+				hide_front_slider_settings();
+				hide_front_tabs_settings();
+				hide_front_animated_image_settings();
+				hide_front_cs_settings();
+				hide_front_dc_settings();
+                hide_front_fancy_slider_settings();
+				
+				/* show settings */
+				show_front_image_settings();
+							
+			} else if( setting_name === 'animatedimage' ) {
+				
+				/* hide other settings*/
+				hide_front_slider_settings();
+				hide_front_tabs_settings();
+				hide_front_image_settings();
+				hide_front_cs_settings();
+				hide_front_dc_settings();
+                hide_front_fancy_slider_settings();
+				
+				/* show settings */
+				show_front_animated_image_settings();		
+			
+			} else if( setting_name === 'slider' ) {
+				
+				/* hide other settings*/
+				hide_front_tabs_settings();
+				hide_front_image_settings();
+				hide_front_animated_image_settings();
+				hide_front_cs_settings();
+				hide_front_dc_settings();
+                hide_front_fancy_slider_settings();
+				
+				/* show settings */
+				show_front_slider_settings();
+				
+				
+			} else if( setting_name === 'transition' ) {
+                
+                /* hide other settings*/
+				hide_front_tabs_settings();
+				hide_front_image_settings();
+				hide_front_animated_image_settings();
+				hide_front_cs_settings();
+				hide_front_dc_settings();
+                hide_front_slider_settings();
+                
+                /* show settings */
+                show_front_fancy_slider_settings();
+                
+                
+            } else if( setting_name === 'video' ) {
+				
+				/* hide other settings*/
+				hide_front_slider_settings();
+				hide_front_tabs_settings();				
+				hide_front_image_settings();
+				hide_front_animated_image_settings();
+				hide_front_cs_settings();
+				hide_front_dc_settings();
+				hide_front_fancy_slider_settings();
+						
+			} else if( setting_name === 'tabs' ) {
+				
+				/* hide other settings*/
+				hide_front_slider_settings();
+				hide_front_animated_image_settings();
+				
+				hide_front_cs_settings();
+				hide_front_dc_settings();
+                
+                hide_front_fancy_slider_settings();
+				
+				/* show settings */
+				show_front_image_settings();				
+				show_front_tabs_settings();
+				
+				/* exception */
+				$('#setting_ut_front_header_rain').hide();	
+				$('#setting_ut_front_header_rain_sound').hide();
+								
+						
+			} else if( setting_name === 'custom' ) {
+			
+				/* hide other settings*/
+				hide_front_slider_settings();
+				hide_front_tabs_settings();				
+				hide_front_image_settings();
+				hide_front_animated_image_settings();				
+				hide_front_dc_settings();
+                hide_front_fancy_slider_settings();
+				
+				/* show settings */
+				show_front_cs_settings();
+				
+			
+			} else if( setting_name === 'dynamic' ) {
+				
+				/* hide other settings*/
+				hide_front_slider_settings();
+				hide_front_tabs_settings();				
+				hide_front_image_settings();
+				hide_front_animated_image_settings();				
+				hide_front_cs_settings();
+                hide_front_fancy_slider_settings();
+								
+				/* show settings */
+				show_front_dc_settings()
+				
+			}
+			
+			
+		}
 		
+		/* Front Page: Single Background Image
+		================================================== */
+		function hide_front_image_settings() {
+			
+			$('#setting_ut_front_header_image').hide();
+			$('#setting_ut_front_header_parallax').hide();
+			$('#setting_ut_front_header_rain').hide();	
+			$('#setting_ut_front_header_rain_sound').hide();	
+			
+		}
 		
-		/*
-        |--------------------------------------------------------------------------
-        | Parallax 
-        |--------------------------------------------------------------------------
-        */
+		function show_front_image_settings() {
+			
+			$('#setting_ut_front_header_image').show();
+			$('#setting_ut_front_header_parallax').show();
+			$('#setting_ut_front_header_rain').show();	
+			$('#setting_ut_front_header_rain_sound').show();		
+			
+		}
+		
+		/* Front Page: Animated Background Image
+		================================================== */
+		function hide_front_animated_image_settings() {
+			
+			$('#setting_ut_front_header_animatedimage').hide();
+			
+		}
+		
+		function show_front_animated_image_settings() {
+			
+			$('#setting_ut_front_header_animatedimage').show();	
+			
+		}			
+		
+		/* Front Page: Background Image Slider
+		================================================== */
+		function hide_front_slider_settings() {
+			
+			$('#setting_front_page_slider_management').hide();
+			$('#setting_front_animation').hide();
+			$('#setting_front_animation_speed').hide();
+			$('#setting_front_slideshow_speed').hide();
+			$('#setting_ut_front_page_slider').hide();
+			
+		}
+		
+		function show_front_slider_settings() {
+			
+			$('#setting_front_page_slider_management').show();
+			$('#setting_front_animation').show();
+			$('#setting_front_animation_speed').show();
+			$('#setting_front_slideshow_speed').show();
+			$('#setting_ut_front_page_slider').show();
+			
+		}
         
+        /* Front Page: Fancy Slider
+		================================================== */
+		function hide_front_fancy_slider_settings() {
+			
+            $('#setting_ut_front_page_fancy_slider').hide();
+            $('#setting_front_fancy_slider_effect').hide();
+            $('#setting_front_fancy_slider_height').hide();
+			
+		}
+		
+		function show_front_fancy_slider_settings() {
+			
+            $('#setting_ut_front_page_fancy_slider').show();
+            $('#setting_front_fancy_slider_effect').show();
+            $('#setting_front_fancy_slider_height').show();           
+			
+		}
+		
+		/* Front Page: Tablet Slider
+		================================================== */
+		function hide_front_tabs_settings() {
+			
+			$('#setting_ut_front_page_tabs_headline').hide();
+			$('#setting_ut_front_page_tabs_headline_style').hide();
+			$('#setting_ut_front_page_tabs').hide();
+			
+		}
+		
+		function show_front_tabs_settings() {
+			
+			$('#setting_ut_front_page_tabs_headline').show();
+			$('#setting_ut_front_page_tabs_headline_style').show();
+			$('#setting_ut_front_page_tabs').show();
+			
+		}	
+		
+		/* Front Page: Custom Shortcode 
+		================================================== */
+		function hide_front_cs_settings() {
+			
+			$('#setting_front_hero_custom_shortcode').hide();
+		
+		}
+		
+		function show_front_cs_settings() {
+			
+			$('#setting_front_hero_custom_shortcode').show();
+		
+		}
+		
+		/* Front Page: Custom Shortcode 
+		================================================== */
+		function hide_front_dc_settings() {
+			
+			$('#setting_front_hero_dynamic_content').hide();
+		
+		}
+		
+		function show_front_dc_settings() {
+			
+			$('#setting_front_hero_dynamic_content').show();
+		
+		}
+		
+		/* Blog Hero Settings - hide or show boxes
+		================================================== */
+		var blog_header_setting  = $('#ut_blog_header_type').val();
+		
+		function show_hide_blog_header_settings( setting_name ) {
+			
+			if( setting_name === 'image' ) {
+				
+				/* hide other settings*/
+				hide_blog_animated_image_settings();
+				hide_blog_slider_settings();
+				hide_blog_tabs_settings();
+				hide_blog_cs_settings();
+				hide_blog_dc_settings();
+                hide_blog_fancy_slider_settings();		
+				
+				/* show settings */
+				show_blog_image_settings();
+			
+			} else if( setting_name === 'animatedimage' ) {
+				
+				/* hide other settings*/
+				hide_blog_slider_settings();
+				hide_blog_image_settings();
+				hide_blog_tabs_settings();
+				hide_blog_cs_settings();
+				hide_blog_dc_settings();
+                hide_blog_fancy_slider_settings();			
+				
+				/* show settings */
+				show_blog_animated_image_settings();
+				
+			} else if( setting_name === 'slider' ) {
+				
+				/* hide other settings*/
+				hide_blog_animated_image_settings();
+				hide_blog_tabs_settings();
+				hide_blog_image_settings();
+				hide_blog_cs_settings();
+				hide_blog_dc_settings();
+                hide_blog_fancy_slider_settings();
+				
+				/* show settings */
+				show_blog_slider_settings();
+			
+            } else if( setting_name === 'transition' ) {
+            	
+                /* hide other settings*/
+				hide_blog_animated_image_settings();
+				hide_blog_tabs_settings();
+				hide_blog_image_settings();
+				hide_blog_cs_settings();
+				hide_blog_dc_settings();
+                hide_blog_slider_settings();
+				
+				/* show settings */
+				show_blog_fancy_slider_settings();
+				
+			} else if( setting_name === 'video' ) {
+				
+				/* hide other settings*/
+				hide_blog_animated_image_settings();
+				hide_blog_slider_settings();
+				hide_blog_tabs_settings();
+				hide_blog_image_settings();
+				hide_blog_cs_settings();		
+				hide_blog_dc_settings();
+                hide_blog_fancy_slider_settings();
+						
+			} else if( setting_name === 'tabs' ) {
+				
+				/* hide other settings*/
+				hide_blog_animated_image_settings();
+				hide_blog_slider_settings();
+				hide_blog_cs_settings();
+				hide_blog_dc_settings();	
+                hide_blog_fancy_slider_settings();		
+				
+				/* show settings */
+				show_blog_image_settings();
+				show_blog_tabs_settings();
+				
+				/* exception */
+				$('#setting_ut_blog_header_rain').hide();	
+				$('#setting_ut_blog_header_rain_sound').hide();	
+			
+			} else if( setting_name === 'custom' ) {
+				
+				/* hide other settings*/
+				hide_blog_animated_image_settings();
+				hide_blog_slider_settings();
+				hide_blog_tabs_settings();
+				hide_blog_image_settings();
+				hide_blog_dc_settings();
+                hide_blog_fancy_slider_settings();
+				
+				/* show settings */
+				show_blog_cs_settings();				
+						
+			}  else if( setting_name === 'dynamic' ) {
+				
+				/* hide other settings*/
+				hide_blog_animated_image_settings();
+				hide_blog_slider_settings();
+				hide_blog_tabs_settings();
+				hide_blog_image_settings();
+				hide_blog_cs_settings();
+                hide_blog_fancy_slider_settings();
+				
+				/* show settings */				
+				show_blog_dc_settings()
+			
+			}
+			
+		}
+		
+		/* Blog: Single Background Image
+		================================================== */
+		function hide_blog_image_settings() {
+			
+			$('#setting_ut_blog_header_image').hide();
+			$('#setting_ut_blog_header_parallax').hide();
+			$('#setting_ut_blog_header_rain').hide();	
+			$('#setting_ut_blog_header_rain_sound').hide();	
+						
+		}
+		
+		function show_blog_image_settings() {
+			
+			$('#setting_ut_blog_header_image').show();
+			$('#setting_ut_blog_header_parallax').show();
+			$('#setting_ut_blog_header_rain').show();	
+			$('#setting_ut_blog_header_rain_sound').show();	
+			
+		}
+		
+		/* Blog: Animated Background Image
+		================================================== */
+		function hide_blog_animated_image_settings() {
+			
+			$('#setting_ut_blog_header_animatedimage').hide();
+			
+		}
+		
+		function show_blog_animated_image_settings() {
+			
+			$('#setting_ut_blog_header_animatedimage').show();	
+			
+		}
+		
+		/* Blog: Background Slider
+		================================================== */
+		function hide_blog_slider_settings() {
+			
+			$('#setting_blog_page_slider_management').hide();
+			$('#setting_blog_animation').hide();
+			$('#setting_blog_animation_speed').hide();
+			$('#setting_blog_slideshow_speed').hide();
+			$('#setting_ut_blog_slider').hide();
+			
+		}
+		
+		function show_blog_slider_settings() {
+			
+			$('#setting_blog_page_slider_management').show();
+			$('#setting_blog_animation').show();
+			$('#setting_blog_animation_speed').show();
+			$('#setting_blog_slideshow_speed').show();
+			$('#setting_ut_blog_slider').show();
+			
+		}
+		
+         /* Blog Page: Fancy Slider
+		================================================== */
+		function hide_blog_fancy_slider_settings() {
+			
+            $('#setting_ut_blog_fancy_slider').hide();
+            $('#setting_blog_fancy_slider_effect').hide();
+            $('#setting_blog_fancy_slider_height').hide();
+			
+		}
+		
+		function show_blog_fancy_slider_settings() {
+			
+            $('#setting_ut_blog_fancy_slider').show();
+            $('#setting_blog_fancy_slider_effect').show();
+            $('#setting_blog_fancy_slider_height').show();
+			
+		}
+        
+		/* Blog: Tab Slider
+		================================================== */
+		function hide_blog_tabs_settings() {
+			
+			$('#setting_ut_blog_tabs_headline').hide();
+			$('#setting_ut_blog_tabs_headline_style').hide();
+			$('#setting_ut_blog_tabs').hide();
+			
+		}
+		
+		function show_blog_tabs_settings() {
+			
+			$('#setting_ut_blog_tabs_headline').show();
+			$('#setting_ut_blog_tabs_headline_style').show();
+			$('#setting_ut_blog_tabs').show();
+			
+		}
+		
+		/* Blog : Custom Shortcode 
+		================================================== */
+		function hide_blog_cs_settings() {
+			
+			$('#setting_blog_hero_custom_shortcode').hide();
+		
+		}
+		
+		function show_blog_cs_settings() {
+			
+			$('#setting_blog_hero_custom_shortcode').show();
+		
+		}
+		
+		/* Blog : Dynamic Content
+		================================================== */
+		function hide_blog_dc_settings() {
+			
+			$('#setting_blog_hero_dynamic_content').hide();	
+		
+		}
+		
+		function show_blog_dc_settings() {
+			
+			$('#setting_blog_hero_dynamic_content').show();	
+		
+		}
+				
+		/* On Theme Option Panel Call
+		================================================== */
+		show_hide_front_header_settings( front_header_setting );
+		show_hide_blog_header_settings( blog_header_setting );
+		
+		
+		/* On Change
+		================================================== */
+		$('#ut_front_page_header_type').change( function() {
+			
+			var front_header_setting = $(this).val();
+			show_hide_front_header_settings( front_header_setting );
+		
+		});
+		
+		$('#ut_blog_header_type').change( function() {
+			
+			var blog_header_setting = $(this).val();
+			show_hide_blog_header_settings( blog_header_setting );
+		
+		});
+		
+		
 		/* disable background settings of parallax is active // front page */
 		var parallax_status = $("#ut_front_header_parallax").val();
 				
@@ -662,6 +889,99 @@
 			
 			}			
 		
+		});
+		
+        
+        
+        /* Video Management
+		================================================== */
+		var show_hide_video_options_front = function( video_source ) {
+            
+            if( video_source === 'selfhosted' ) {
+               
+               show_selfhosted_front();
+               $("#setting_ut_front_video").hide();
+               
+               
+            } else {
+              
+               hide_selfhosted_front();
+               $("#setting_ut_front_video").show();
+              
+            } 
+            
+        }        
+        
+        var show_selfhosted_front = function() {
+            
+            $("#setting_ut_front_video_mp4").show();
+            $("#setting_ut_front_video_ogg").show();
+            $("#setting_ut_front_video_webm").show();
+            
+        }
+		
+        var hide_selfhosted_front = function() {
+            
+            $("#setting_ut_front_video_mp4").hide();
+            $("#setting_ut_front_video_ogg").hide();
+            $("#setting_ut_front_video_webm").hide();
+            
+        }
+        
+         var show_hide_video_options_blog = function( video_source ) {
+            
+            if( video_source === 'selfhosted' ) {
+               
+               show_selfhosted_blog();
+               $("#setting_ut_blog_video").hide();
+               
+               
+            } else {
+              
+               hide_selfhosted_blog();
+               $("#setting_ut_blog_video").show();
+              
+            } 
+            
+        }
+        
+        
+        var show_selfhosted_blog = function() {
+            
+            $("#setting_ut_blog_video_mp4").show();
+            $("#setting_ut_blog_video_ogg").show();
+            $("#setting_ut_blog_video_webm").show();
+               
+        }
+        
+        var hide_selfhosted_blog = function() {
+            
+            $("#setting_ut_blog_video_mp4").hide();
+            $("#setting_ut_blog_video_ogg").hide();
+            $("#setting_ut_blog_video_webm").hide();
+               
+        }
+		
+        var front_video_source = $('#ut_front_video_source').val();
+        show_hide_video_options_front( front_video_source ); 
+       
+        $('#ut_front_video_source').change( function() {
+			
+			var video_source = $(this).val();
+		    show_hide_video_options_front( video_source ); 
+            		
+		});
+        
+        
+        var blog_video_source = $('#ut_blog_video_source').val();
+        show_hide_video_options_blog( blog_video_source ); 
+        
+        
+        $('#ut_blog_video_source').change( function() {
+			
+			var video_source = $(this).val();
+            show_hide_video_options_blog( video_source );
+					
 		});
         
 	});

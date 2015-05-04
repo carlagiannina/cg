@@ -12,7 +12,7 @@ class WP_Widget_Video extends WP_Widget {
 
 	function __construct() {
 		$widget_ops = array('classname' => 'ut_widget_video', 'description' => __( 'Insert your embedded code in here!', 'unitedthemes') );
-		parent::__construct('ut_video', __('United Themes - Embedded Video', 'unitedthemes'), $widget_ops);
+		parent::__construct('ut_video', __('UnitedThemes - Embedded Video', 'unitedthemes'), $widget_ops);
 		$this->alt_option_name = 'ut_video_widget';
 
 	}

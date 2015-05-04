@@ -4,46 +4,26 @@
  *
  * @package unitedthemes
  */
+?>
 
-global $post;
+<?php
 
-$ut_display_section_header = get_post_meta( get_the_ID() , 'ut_display_section_header' , true );
-
-/* check if page header has been activated */
-if( $ut_display_section_header != 'hide' ) {
-    
-    $ut_page_slogan             = get_post_meta( get_the_ID() , 'ut_section_slogan' , true );
-    
-    $ut_page_header_style       = get_post_meta( get_the_ID() , 'ut_section_header_style' , true ); 
-    $ut_page_header_style       = ( !empty($ut_page_header_style) && $ut_page_header_style != 'global' ) ? $ut_page_header_style : ot_get_option('ut_global_headline_style');
-    
-    $ut_page_header_width       = get_post_meta( get_the_ID() , 'ut_section_header_width' , true );
-    $ut_page_header_width       = ( !empty($ut_page_header_width) && $ut_page_header_width == 'ten' ) ? 'grid-100' : 'grid-70 prefix-15';
-    
-    $ut_page_header_text_align  = get_post_meta( get_the_ID() , 'ut_section_header_text_align' , true);
-    $ut_page_header_text_align  = ( !empty($ut_page_header_text_align) && ($ut_page_header_text_align == 'left' || $ut_page_header_text_align == 'right')) ? 'header-' . $ut_page_header_text_align : '';
-        
-}
-
-/* glow effect for header */
-$ut_page_title_glow      = get_post_meta( $post->ID , 'ut_section_title_glow' , true) == 'on' ? 'ut-glow' : ''; 
+/* header styling */
+$header_style = get_post_meta( get_the_ID() , 'ut_section_header_style' , true ); 
+$header_style = ( !empty($header_style) && $header_style != 'global' ) ? $header_style : ot_get_option('ut_global_headline_style'); 
 
 /* post format */
-$post_format             = get_post_format();
+$post_format = get_post_format();
 
 /* portfolio details */
-$ut_portfolio_details    = get_post_meta( $post->ID , 'ut_portfolio_details', true ); 
+$ut_portfolio_details = get_post_meta( $post->ID , 'ut_portfolio_details', true ); 
 
 /* needed variables */
-$content = $the_content  = NULL; 
-$pageslogan              = get_post_meta( $post->ID , 'ut_page_slogan' , true ); 
-$socialshare             = get_option('portfolio_social_setting');
-$socialshare_border      = get_option('portfolio_social_border');
-$socialshare_border      = empty($socialshare_border) ? 'on' : $socialshare_border; 
+$content     = $the_content = NULL; 
+$pageslogan  = get_post_meta( get_the_ID() , 'ut_page_slogan' , true ); 
+$socialshare = get_option('portfolio_social_setting');
 
-/* color and css */
-$ut_page_skin            = get_post_meta( $post->ID , 'ut_section_skin' , true);
-$ut_page_class           = get_post_meta( $post->ID , 'ut_section_class' , true); ?>
+?>
 
 <?php get_header(); ?>
     
@@ -51,7 +31,7 @@ $ut_page_class           = get_post_meta( $post->ID , 'ut_section_class' , true)
                 
         <?php while ( have_posts() ) : the_post(); 
             
-            /* assign content - depending on the post format we might need to modify it */
+            /* assign content - depending on the post format we might modify it */
             $content = get_the_content();                  
             
             /* standard post format or audio format */
@@ -84,31 +64,29 @@ $ut_page_class           = get_post_meta( $post->ID , 'ut_section_class' , true)
             
             <div class="grid-container">
                 
-                <div id="primary" class="grid-parent grid-100 tablet-grid-100 mobile-grid-100 <?php echo $ut_page_skin; ?> <?php echo $ut_page_class; ?>">
+                <div id="primary" class="grid-parent grid-100 tablet-grid-100 mobile-grid-100">
                             
                         <div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
                             
-                            <?php if( $ut_display_section_header != 'hide' ) : ?>
-                            
-                            <div class="<?php echo $ut_page_header_width; ?> mobile-grid-100 tablet-grid-100">                                
-                                <header class="page-header <?php echo $ut_page_header_style;?> <?php echo $ut_page_header_text_align; ?>">
+                            <div class="grid-70 prefix-15 mobile-grid-100 tablet-grid-100">
+                                
+                                <header class="page-header <?php echo $header_style;?>">
                                         
-                                        <h1 class="page-title <?php echo $ut_page_title_glow; ?>"><span><?php the_title(); ?></span></h1> 
+                                        <h1 class="page-title"><span><?php the_title(); ?></span></h1> 
                                         
                                         <?php if( !empty($pageslogan) ) : ?>
-                                            <div class="lead"><?php echo wpautop($pageslogan); ?></div>
+                                            <p class="lead"><?php echo $pageslogan; ?></p>
                                         <?php endif; ?>
                                             
                                         <div class="entry-meta">
                                             <?php edit_post_link( __( 'Edit', 'unitedthemes' ), '<span class="edit-link"><i class="fa fa-pencil-square-o"></i>', '</span>' ); ?>
                                         </div>
                                                                      
-                                </header><!-- .page-header -->                             
+                                </header><!-- .page-header -->
+                             
                              </div>
                              
-                             <?php endif; ?>
-                             
-                             <?php if( is_array( $ut_portfolio_details ) && !empty( $ut_portfolio_details ) ) : ?>
+                             <?php if( is_array( $ut_portfolio_details ) && !empty( $ut_portfolio_details ) && ( count($ut_portfolio_details) > 1 ) ) : ?>
                                 
                                 <div class="grid-75 tablet-grid-75 mobile-grid-100">
                                 
@@ -120,8 +98,8 @@ $ut_page_class           = get_post_meta( $post->ID , 'ut_section_class' , true)
                                 
                                         <div class="clear"></div>
                                                     
-                                        <ul class="ut-project-sc clearfix <?php echo $socialshare_border == 'off' ? 'no-border' : '' ?>">
-                                            <li><?php esc_html_e('Share:' , 'unitedthemes'); ?></li>
+                                        <ul class="ut-project-sc clearfix">
+                                            <li><?php _e('Share:' , 'unitedthemes'); ?></li>
                                             <li><a class="ut-share-link sc-twitter" data-social="utsharetwitter"><i class="fa fa-twitter"></i></a></li>
                                             <li><a class="ut-share-link sc-facebook" data-social="utsharefacebook"><i class="fa fa-facebook"></i></a></li>
                                             <li><a class="ut-share-link sc-google" data-social="utsharegoogle"><i class="fa fa-google-plus"></i></a></li>
@@ -164,8 +142,8 @@ $ut_page_class           = get_post_meta( $post->ID , 'ut_section_class' , true)
                                 
                                         <div class="clear"></div>
                                                     
-                                        <ul class="ut-project-sc clearfix <?php echo $socialshare_border == 'off' ? 'no-border' : '' ?>">
-                                            <li><?php esc_html_e('Share:' , 'unitedthemes'); ?></li>
+                                        <ul class="ut-project-sc clearfix">
+                                            <li><?php _e('Share:' , 'unitedthemes'); ?></li>
                                             <li><a class="ut-share-link sc-twitter" data-social="utsharetwitter"><i class="fa fa-twitter"></i></a></li>
                                             <li><a class="ut-share-link sc-facebook" data-social="utsharefacebook"><i class="fa fa-facebook"></i></a></li>
                                             <li><a class="ut-share-link sc-google" data-social="utsharegoogle"><i class="fa fa-google-plus"></i></a></li>

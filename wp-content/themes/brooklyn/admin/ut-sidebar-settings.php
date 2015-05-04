@@ -47,19 +47,18 @@ if ( ! function_exists( 'ut_sidebar_settings' ) ) :
         
         
         /* inject dynamic sidebar */
-        $dynamic_sidebars = get_option('ut_theme_sidebars');
-                
+        $dynamic_sidebars = ot_get_option( 'ut_sidebars' );
+        
         if( !empty( $dynamic_sidebars ) && is_array( $dynamic_sidebars ) ) :
-                          
+            
             foreach( $dynamic_sidebars as $single_sidebar ) {
                  
+                 //print_r( $single_sidebar );
+                 
                  $sidebar_setting = array();
+                 $sidebar_setting['label'] = $single_sidebar['title'];
                  
-                 $sidebar_setting['label'] = $single_sidebar['sidebarname'];
-                 $sidebar_setting['value'] = $single_sidebar['sidebar_id'];
-                 
-                 $counter = count( $ut_sidebar_settings['fields'][0]['choices'] );                 
-                 $ut_sidebar_settings['fields'][0]['choices'][$counter+1] = $sidebar_setting;
+                 array_merge( $ut_sidebar_settings['fields'][0]['choices'] , $sidebar_setting );
                             
             }
         

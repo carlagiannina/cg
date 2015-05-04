@@ -117,21 +117,21 @@ if ( ! function_exists( 'ut_register_required_plugins' ) ) :
                 'name'      			=> 'Contact Form 7',
                 'slug'      			=> 'contact-form-7',
                 'required'  			=> false,
-				'version' 				=> '4.0.3', 
+				'version' 				=> '3.8', 
             ),
 
 			array(
                 'name'      			=> 'Easy Theme and Plugin Upgrades',
                 'slug'      			=> 'easy-theme-and-plugin-upgrades',
                 'required'  			=> false,
-				'version' 				=> '1.0.4', 
+				'version' 				=> '1.0.3', 
             ),
 			
 			array(
                 'name'      			=> 'Leaflet Maps Marker (Google Maps, OpenStreetMap, Bing Maps)',
                 'slug'      			=> 'leaflet-maps-marker',
                 'required'  			=> false,
-				'version' 				=> '3.9.5', 
+				'version' 				=> '3.8.8', 
             ),
 			
 			array(
@@ -139,7 +139,7 @@ if ( ! function_exists( 'ut_register_required_plugins' ) ) :
 				'slug'     				=> 'revslider',
 				'source'   				=> get_template_directory_uri() . '/inc/lib/files/revslider.zip', 
 				'required' 				=> true, 
-				'version' 				=> '4.6.8', 
+				'version' 				=> '4.5.4', 
 			),
 						
 		    array(
@@ -147,7 +147,7 @@ if ( ! function_exists( 'ut_register_required_plugins' ) ) :
 				'slug'     				=> 'ut-twitter',
 				'source'   				=> get_template_directory_uri() . '/inc/lib/files/ut-twitter.zip', 
 				'required' 				=> true, 
-				'version' 				=> '3.1', 
+				'version' 				=> '2.2', 
 			),
 			
 			array(
@@ -155,7 +155,7 @@ if ( ! function_exists( 'ut_register_required_plugins' ) ) :
 				'slug'     				=> 'ut-shortcodes',
 				'source'   				=> get_template_directory_uri() . '/inc/lib/files/ut-shortcodes.zip', 
 				'required' 				=> true, 
-				'version' 				=> '3.1', 
+				'version' 				=> '2.3', 
 			),
 			
 			array(
@@ -163,7 +163,7 @@ if ( ! function_exists( 'ut_register_required_plugins' ) ) :
 				'slug'     				=> 'ut-portfolio',
 				'source'   				=> get_template_directory_uri() . '/inc/lib/files/ut-portfolio.zip', 
 				'required' 				=> true, 
-				'version' 				=> '3.5', 
+				'version' 				=> '2.3', 
 			),
 			
 			array(
@@ -171,7 +171,7 @@ if ( ! function_exists( 'ut_register_required_plugins' ) ) :
 				'slug'     				=> 'ut-pricing',
 				'source'   				=> get_template_directory_uri() . '/inc/lib/files/ut-pricing.zip', 
 				'required' 				=> true, 
-				'version' 				=> '2.2', 
+				'version' 				=> '1.2', 
 			)
         
         );

@@ -155,32 +155,32 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 	                    <span class="item-order hide-if-js">
 	                        <a href="<?php
 	                            echo wp_nonce_url(
-	                                esc_url( add_query_arg(
+	                                add_query_arg(
 	                                    array(
 	                                        'action' => 'move-up-menu-item',
 	                                        'menu-item' => $item_id,
 	                                    ),
-	                                    esc_url( remove_query_arg($removed_args, admin_url( 'nav-menus.php' ) ) )
-	                                )),
+	                                    remove_query_arg($removed_args, admin_url( 'nav-menus.php' ) )
+	                                ),
 	                                'move-menu_item'
 	                            );
 	                        ?>" class="item-move-up"><abbr title="<?php esc_attr_e('Move up' , 'unitedthemes'); ?>">&#8593;</abbr></a>
 	                        |
 	                        <a href="<?php
 	                            echo wp_nonce_url(
-	                                esc_url( add_query_arg(
+	                                add_query_arg(
 	                                    array(
 	                                        'action' => 'move-down-menu-item',
 	                                        'menu-item' => $item_id,
 	                                    ),
-	                                    esc_url( remove_query_arg($removed_args, admin_url( 'nav-menus.php' ) ) )
-	                                )),
+	                                    remove_query_arg($removed_args, admin_url( 'nav-menus.php' ) )
+	                                ),
 	                                'move-menu_item'
 	                            );
 	                        ?>" class="item-move-down"><abbr title="<?php esc_attr_e('Move down' , 'unitedthemes'); ?>">&#8595;</abbr></a>
 	                    </span>
 	                    <a class="item-edit" id="edit-<?php echo $item_id; ?>" title="<?php esc_attr_e('Edit Menu Item' , 'unitedthemes' ); ?>" href="<?php
-	                        echo ( isset( $_GET['edit-menu-item'] ) && $item_id == $_GET['edit-menu-item'] ) ? admin_url( 'nav-menus.php' ) : esc_url( add_query_arg( 'edit-menu-item', $item_id, esc_url( remove_query_arg( $removed_args, admin_url( 'nav-menus.php#menu-item-settings-' . $item_id ) ) ) ) );
+	                        echo ( isset( $_GET['edit-menu-item'] ) && $item_id == $_GET['edit-menu-item'] ) ? admin_url( 'nav-menus.php' ) : add_query_arg( 'edit-menu-item', $item_id, remove_query_arg( $removed_args, admin_url( 'nav-menus.php#menu-item-settings-' . $item_id ) ) );
 	                    ?>"><?php _e( 'Edit Menu Item' , 'unitedthemes' ); ?></a>
 	                </span>
 	            </dt>
@@ -262,15 +262,15 @@ class Walker_Nav_Menu_Edit_Custom extends Walker_Nav_Menu  {
 	                <?php endif; ?>
 	                <a class="item-delete submitdelete deletion" id="delete-<?php echo $item_id; ?>" href="<?php
 	                echo wp_nonce_url(
-	                    esc_url( add_query_arg(
+	                    add_query_arg(
 	                        array(
 	                            'action' => 'delete-menu-item',
 	                            'menu-item' => $item_id,
 	                        ),
-	                        esc_url( remove_query_arg($removed_args, admin_url( 'nav-menus.php' ) ) )
-	                    )),
+	                        remove_query_arg($removed_args, admin_url( 'nav-menus.php' ) )
+	                    ),
 	                    'delete-menu_item_' . $item_id
-	                ); ?>"><?php _e('Remove' , 'unitedthemes'); ?></a> <span class="meta-sep"> | </span> <a class="item-cancel submitcancel" id="cancel-<?php echo $item_id; ?>" href="<?php echo esc_url( add_query_arg( array('edit-menu-item' => $item_id, 'cancel' => time()), esc_url( remove_query_arg( $removed_args, admin_url( 'nav-menus.php' ) ) ) ) );
+	                ); ?>"><?php _e('Remove' , 'unitedthemes'); ?></a> <span class="meta-sep"> | </span> <a class="item-cancel submitcancel" id="cancel-<?php echo $item_id; ?>" href="<?php echo esc_url( add_query_arg( array('edit-menu-item' => $item_id, 'cancel' => time()), remove_query_arg( $removed_args, admin_url( 'nav-menus.php' ) ) ) );
 	                    ?>#menu-item-settings-<?php echo $item_id; ?>"><?php _e('Cancel' , 'unitedthemes' ); ?></a>
 	            </div>
 	
@@ -311,15 +311,15 @@ class ut_menu_walker extends Walker_Nav_Menu {
 		   $front_page_id 	= get_option('page_on_front');
 		   
 		   /* extra settings */		   
-		   $blog_url    = esc_url( home_url() );
-		   $front_url   = is_front_page() ? '#top' : esc_url( home_url() );
+		   $blog_url    = !is_front_page() ? esc_url( home_url() ) : '';
+		   $front_url   = is_front_page() ? '#top' : home_url();
 		   $extraClass	= !is_front_page() ? 'external' : '';
 		   
            $indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
 			
 		   /* reset values */	
-           $class_names = $class_names_cache = $value = $post_data = '';
-                        	
+           $class_names = $value = $post_data = '';
+			
 		   /*class name for front page */
 		   if( is_front_page() && $front_page_id == $item->object_id )	{
 			  
@@ -329,63 +329,28 @@ class ut_menu_walker extends Walker_Nav_Menu {
 						
 			   $classes = empty( $item->classes ) ? array() : (array) $item->classes;
 			   $class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item ) );
-			   $class_names_cache = $class_names = ' class="'. esc_attr( $class_names ) . ' ' . $extraClass . '"';               
+			   $class_names = ' class="'. esc_attr( $class_names ) . ' ' . $extraClass . '"';
 		   
 		   }
 		   
-           if( strpos($class_names, 'contact-us') !== false ) {
-           
-                $ut_activate_csection = ot_get_option('ut_activate_csection');
-                        
-                if( ut_return_csection_config('ut_activate_csection' , 'on') == 'off' && is_array( $ut_activate_csection ) && in_array( 'is_front_page', $ut_activate_csection ) ) {
-                    
-                    $class_names = str_replace('contact-us', '', $class_names);                    
-                    
-                }
-           
-           }
-           
 		   $output .= $indent . '<li ' . $value . $class_names .'>';
 		   
 		   if ( !empty( $item->object_id ) ) {
-		        $post_data = get_post($item->object_id);
+		   	$post_data = get_post($item->object_id);
 		   }
 		   
-		   $slug = ( isset($post_data->post_name) ) ? ut_clean_section_id( $post_data->post_name ) : '';
+		   $slug = ( isset($post_data->post_name)) ? $post_data->post_name : '';
 		   		   
            $attributes  = ! empty( $item->attr_title )  ? ' title="'   . esc_attr( $item->attr_title ) .'"' : '';
            $attributes .= ! empty( $item->target )      ? ' target="'  . esc_attr( $item->target ) .'"' : '';
            $attributes .= ! empty( $item->xfn )         ? ' rel="'     . esc_attr( $item->xfn ) .'"' : '';
-
+		   
 		   /* create a regular link for the blog - all other menu items are anchors */
 		   if( $blog_page_id == $item->object_id || $item->menutype == 'page' ) {
 		   		
-                if( strpos($class_names_cache, 'contact-us') !== false ) {
-                
-                    if( ut_return_csection_config('ut_activate_csection' , 'on') == 'on' ) {
-                    
-                        $attributes .= ! empty( $item->url ) ? ' href="'   . esc_attr( $item->url ) .'"' : '';
-                        
-                    } else {
-                         
-                        $ut_activate_csection = ot_get_option('ut_activate_csection');
-                        
-                        if( is_array( $ut_activate_csection ) && in_array( 'is_front_page', $ut_activate_csection ) ) {
-                            
-                            $attributes .= ! empty( $item->url ) ? ' href="' . $blog_url . '/'   . esc_attr( $item->url ) .'"' : '';    
-                            $extraClass = 'external';
-                            
-                        }
-                        
-                    }        
-                
-                } else {
-                
-                    $attributes .= ! empty( $item->url ) ? ' href="'   . esc_attr( $item->url ) .'"' : '';     
-                    $extraClass = 'external';    
-                }
-          
-           /* create a regular link for the front page or an anchors - depends on which page we are */  
+				$attributes .= ! empty( $item->url ) ? ' href="'   . esc_attr( $item->url ) .'"' : '';
+		   
+		   /* create a regular link for the front page or an anchors - depends on which page we are */  
 		   } elseif( $front_page_id == $item->object_id ) {
 		   		
 				/* anchor if is front page */
@@ -403,12 +368,9 @@ class ut_menu_walker extends Walker_Nav_Menu {
 		   } else {
 				
 				$attributes .= ! empty( $slug ) ? ' href="' . $blog_url . '/#section-' . esc_attr( $slug ) .'"' : '';
-		        
+		  
 		   }
-		   
-           /* WPML temp fix */
-           $attributes = str_replace('//#section-','/#section-',$attributes);
-           
+		  
 
            $prepend = '';
            $append = '';

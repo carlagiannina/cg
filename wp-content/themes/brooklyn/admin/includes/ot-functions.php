@@ -32,7 +32,7 @@ if ( ! function_exists( 'ot_get_option' ) ) {
     if ( isset( $options[$option_id] ) && '' != $options[$option_id] ) {
         
       return ot_wpml_filter( $options, $option_id );
-            
+      
     }
     
     return $default;
@@ -85,7 +85,7 @@ if ( ! function_exists( 'ot_wpml_filter' ) ) {
             }
           
           // All other acceptable option types
-          } else if ( $option_id == $setting['id'] && in_array( $setting['type'], apply_filters( 'ot_wpml_option_types', array( 'text', 'textarea', 'textarea-simple' , 'upload' ) ) ) ) {
+          } else if ( $option_id == $setting['id'] && in_array( $setting['type'], apply_filters( 'ot_wpml_option_types', array( 'text', 'textarea', 'textarea-simple' ) ) ) ) {
           
             $_string = icl_t( 'Theme Options', $option_id, $options[$option_id] );
             

@@ -239,7 +239,7 @@ if ( ! class_exists( 'OT_Settings' ) ) {
               if ( isset( $layouts['active_layout'] ) ) {
                 $option_tree = get_option( $option['id'] );
                 $layouts[$layouts['active_layout']] = ot_encode( serialize( $option_tree ) );
-                update_option( 'option_tree_layouts', $layouts );                             
+                update_option( 'option_tree_layouts', $layouts );
               }
               
             }
@@ -284,10 +284,9 @@ if ( ! class_exists( 'OT_Settings' ) ) {
                 /* Sub Header */
                 echo '<div id="option-tree-sub-header">';
                   
-                if ( $show_buttons ) {
-                  //echo '<a href="http://faq.unitedthemes.com/brooklyn/" target="_blank" class="option-tree-ui-button blue right">View Documentation</a>';
-                  echo '<button class="option-tree-ui-button blue right save-settings">' . $page['button_text'] . '</button>';
-                }
+                if ( $show_buttons )
+                  echo '<button class="option-tree-ui-button blue right">' . $page['button_text'] . '</button>';
+                  
                 echo '</div>';
 				
                 /* Navigation */
@@ -335,44 +334,6 @@ if ( ! class_exists( 'OT_Settings' ) ) {
               echo $show_buttons ? '</form>' : '</div>';
 			  
             echo '</div>';
-            
-            if( function_exists('ut_recognized_icons') ) : ?>
-            
-            <div class="ut-modal-option-tree">
-                <div class="ut-modal-box-option-tree ut-admin">
-                    
-                    <div class="ut-modal-option-tree-header">
-                        <div class="inner">
-                            <h2><?php _e( 'Choose Icon' , 'unitedthemes' ); ?></h2>
-                        </div>
-                    </div>
-                    
-                    <div class="ut-modal-option-tree-body">
-                        <div class="inner">
-                            <ul class="ut-glyphicons">
-                            
-                            <?php foreach( ut_recognized_icons() as $key => $icon) {
-                                                    
-                                $icondisplay = ($icon == 'icon-noicon') ? 'no icon' : '<i class="fa '.$icon.'"></i>';
-                                
-                                echo '<li><span data-icon="'.$icon.'" class="ut-icon-option-tree">'.$icondisplay.'</span></li>';
-                            
-                            } ?>
-                            
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="ut-modal-option-tree-footer">
-                        <div class="inner">
-                            <a href="#" class="close-ut-modal-option-tree"><?php _e( 'Close' , 'unitedthemes' ); ?></a>
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <?php endif;
           
           }
         
@@ -506,10 +467,8 @@ if ( ! class_exists( 'OT_Settings' ) ) {
         'type'              => $type,
         'field_id'          => $id,
         'field_name'        => $get_option . '[' . $id . ']',
-        'field_toplevel'    => isset( $toplevel ) && $toplevel ? $toplevel : '',
         'field_value'       => $field_value,
         'field_desc'        => isset( $desc ) ? $desc : '',
-        'field_htmldesc'    => isset( $htmldesc ) ? $htmldesc : '',
         'field_std'         => isset( $std ) ? $std : '',
         'field_rows'        => isset( $rows ) && ! empty( $rows ) ? $rows : 15,
         'field_post_type'   => isset( $post_type ) && ! empty( $post_type ) ? $post_type : 'post',
@@ -562,7 +521,7 @@ if ( ! class_exists( 'OT_Settings' ) ) {
         
         }
           
-        update_option( $option['id'], $defaults );        
+        update_option( $option['id'], $defaults );
         
       }
   
@@ -837,9 +796,9 @@ if ( ! class_exists( 'OT_Settings' ) ) {
 							
 								$this->do_settings_fields( $page, $section['id'] , $field['args']['subid'] );
 								
-								echo '<div class="format-settings save-holder">';
+								echo '<div class="format-settings">';
 								
-									echo '<button class="option-tree-ui-button blue right save-settings">' . __( 'Save Changes', 'option-tree' ) . '</button>';
+									echo '<button class="option-tree-ui-button blue right">' . __( 'Save Changes', 'option-tree' ) . '</button>';
 								
 								echo '</div>';
 															

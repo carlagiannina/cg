@@ -399,24 +399,6 @@ if ( ! function_exists( 'ot_after_theme_options_save' ) ) {
     /* only execute after the theme options are saved */
     if ( apply_filters( 'ot_theme_options_menu_slug', 'ot-theme-options' ) == $page && $updated ) {
       
-      /* check if cache is off and delete transients */
-      if( ot_get_option('ut_use_cache' , 'off') == 'off' ) {
-        
-        delete_transient('ut_css_cache');
-        delete_transient('ut_js_cache');
-        delete_transient('ut_front_page_query'); 
-        
-      }
-      
-      /* get new logo value for WordPress Customizer */
-      set_theme_mod('ut_site_logo', ot_get_option('ut_site_logo'));
-      set_theme_mod('ut_site_logo_alt', ot_get_option('ut_site_logo_alt'));
-      set_theme_mod('ut_site_logo_retina', ot_get_option('ut_site_logo_retina'));
-      set_theme_mod('ut_site_logo_alt_retina', ot_get_option('ut_site_logo_alt_retina'));      
-      
-      /* get new theme accent color for WordPress Customizer */
-      update_option('ut_accentcolor', ot_get_option('ut_accentcolor'));
-      
       /* grab a copy of the theme options */
       $options = get_option( 'option_tree' );
       
@@ -460,7 +442,7 @@ if ( ! function_exists( 'ot_validate_setting' ) ) {
     if ( ! empty( $wmpl_id ) ) {
     
       /* Allow filtering on the WPML option types */
-      $single_string_types = apply_filters( 'ot_wpml_option_types', array( 'text', 'textarea', 'textarea-simple', 'upload' ) );
+      $single_string_types = apply_filters( 'ot_wpml_option_types', array( 'text', 'textarea', 'textarea-simple' ) );
               
       if ( in_array( $type, $single_string_types ) ) {
       
@@ -574,7 +556,7 @@ if ( ! function_exists( 'ot_admin_scripts' ) ) {
     
     /* load all the required scripts */
     wp_enqueue_script( 'ot-cookie-js', OT_URL . 'assets/js/jquery.ckie.js', array( 'jquery' ), OT_VERSION );
-    wp_enqueue_script( 'ot-admin-js', OT_URL . 'assets/js/ot-admin.js', array( 'jquery', 'jquery-ui-tabs', 'jquery-effects-core', 'jquery-effects-blind', 'jquery-effects-slide', 'jquery-ui-sortable', 'media-upload', 'thickbox' , 'underscore' ), OT_VERSION );
+    wp_enqueue_script( 'ot-admin-js', OT_URL . 'assets/js/ot-admin.js', array( 'jquery', 'jquery-ui-tabs', 'jquery-ui-sortable', 'media-upload', 'thickbox' , 'underscore' ), OT_VERSION );
     
     /* create localized JS array */
     $localized_array = array( 
@@ -685,7 +667,7 @@ if ( ! function_exists( 'ot_default_settings' ) ) {
       $settings_count = 0;
       $settings = array();
       
-      if ( count( $wpdb->get_results( "SHOW TABLES LIKE '{$table_prefix}option_tree'" ) ) == 1 && $old_settings = $wpdb->get_results( "SELECT * FROM {$table_prefix}option_tree ORDER BY item_sort ASC" ) ) {
+      if ( mysql_num_rows( mysql_query( "SHOW TABLES LIKE '{$table_prefix}option_tree'" ) ) == 1 && $old_settings = $wpdb->get_results( "SELECT * FROM {$table_prefix}option_tree ORDER BY item_sort ASC" ) ) {
         
         foreach ( $old_settings as $setting ) {
           
@@ -979,7 +961,7 @@ if ( ! function_exists( 'ot_import' ) ) {
       }
       
       /* redirect */
-      wp_redirect( esc_url( add_query_arg( array( 'action' => 'import-xml', 'message' => $message ), $_POST['_wp_http_referer'] ) ) );
+      wp_redirect( add_query_arg( array( 'action' => 'import-xml', 'message' => $message ), $_POST['_wp_http_referer'] ) );
       exit;
       
     }
@@ -1000,7 +982,7 @@ if ( ! function_exists( 'ot_import' ) ) {
       }
       
       /* redirect */
-      wp_redirect( esc_url( add_query_arg( array( 'action' => 'import-settings', 'message' => $message ), $_POST['_wp_http_referer'] ) ) );
+      wp_redirect( add_query_arg( array( 'action' => 'import-settings', 'message' => $message ), $_POST['_wp_http_referer'] ) );
       exit;
       
     }
@@ -1048,7 +1030,7 @@ if ( ! function_exists( 'ot_import' ) ) {
       }
       
       /* redirect accordingly */
-      wp_redirect( esc_url( add_query_arg( array( 'action' => 'import-data', 'message' => $message ), $_POST['_wp_http_referer'] ) ) );
+      wp_redirect( add_query_arg( array( 'action' => 'import-data', 'message' => $message ), $_POST['_wp_http_referer'] ) );
       exit;
       
     }
@@ -1116,7 +1098,7 @@ if ( ! function_exists( 'ot_import' ) ) {
       }
         
       /* redirect accordingly */
-      wp_redirect( esc_url( add_query_arg( array( 'action' => 'import-layouts', 'message' => $message ), $_POST['_wp_http_referer'] ) ) );
+      wp_redirect( add_query_arg( array( 'action' => 'import-layouts', 'message' => $message ), $_POST['_wp_http_referer'] ) );
       exit;
       
     }
@@ -1708,7 +1690,7 @@ if ( ! function_exists( 'ot_save_settings' ) ) {
       }
       
       /* redirect */
-      wp_redirect( esc_url( add_query_arg( array( 'action' => 'save-settings', 'message' => $message ), $_POST['_wp_http_referer'] ) ) );
+      wp_redirect( add_query_arg( array( 'action' => 'save-settings', 'message' => $message ), $_POST['_wp_http_referer'] ) );
       exit;
       
     }
@@ -1933,9 +1915,9 @@ if ( ! function_exists( 'ot_modify_layouts' ) ) {
       
       /* redirect */
       if ( isset( $_REQUEST['page'] ) && $_REQUEST['page'] == apply_filters( 'ot_theme_options_menu_slug', 'ot-theme-options' ) ) {
-        $query_args = esc_url( add_query_arg( array( 'settings-updated' => 'layout' ), esc_url( remove_query_arg( array( 'action', 'message' ), $_POST['_wp_http_referer'] ) ) ) );
+        $query_args = add_query_arg( array( 'settings-updated' => 'layout' ), remove_query_arg( array( 'action', 'message' ), $_POST['_wp_http_referer'] ) );
       } else {
-        $query_args = esc_url( add_query_arg( array( 'action' => 'save-layouts', 'message' => $message ), $_POST['_wp_http_referer'] ) );
+        $query_args = add_query_arg( array( 'action' => 'save-layouts', 'message' => $message ), $_POST['_wp_http_referer'] );
       }
       wp_redirect( $query_args );
       exit;
@@ -3810,7 +3792,6 @@ if ( ! function_exists( 'ot_list_item_view' ) ) {
           'type'              => $field['type'],
           'field_id'          => $name . '_' . $field['id'] . '_' . $key,
           'field_name'        => $_field_name . '[' . $key . '][' . $field['id'] . ']',
-          'field_toplevel'    => isset( $field['toplevel'] ) && $field['toplevel'] ? $field['toplevel'] : false,
           'field_value'       => $field_value,
           'field_desc'        => isset( $field['desc'] ) ? $field['desc'] : '',
           'field_std'         => isset( $field['std'] ) ? $field['std'] : '',

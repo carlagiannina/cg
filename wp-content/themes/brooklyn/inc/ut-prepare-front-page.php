@@ -72,7 +72,7 @@ if ( ! function_exists( 'ut_prepare_front_query' ) ) :
 				
 				/* now we get all menu items from primary navigation  */
 				$menu_args = array(
-					'orderby'   =>  'menu_order'
+					'orderby'                => 'menu_order'
 				);
 				
 				$ut_menu_items = wp_get_nav_menu_items( $ut_menu_id , $menu_args );

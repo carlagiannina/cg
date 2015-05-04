@@ -90,7 +90,7 @@ if ( ! function_exists( 'ot_type_background' ) ) {
       /* format setting inner wrapper */
       echo '<div class="format-setting-inner">'; 
         
-        echo '<div class="select-group select-margin">';
+        echo '<div class="select-group">';
         
           /* build background repeat */
           $background_repeat = isset( $field_value['background-repeat'] ) ? esc_attr( $field_value['background-repeat'] ) : '';
@@ -109,8 +109,6 @@ if ( ! function_exists( 'ot_type_background' ) ) {
               echo '<option value="' . esc_attr( $key ) . '" ' . selected( $background_attachment, $key, false ) . '>' . esc_attr( $value ) . '</option>';
             }
           echo '</select>';
-          
-          echo '<div class="clear"></div>';
           
           /* build background position */
           $background_position = isset( $field_value['background-position'] ) ? esc_attr( $field_value['background-position'] ) : '';
@@ -150,7 +148,7 @@ if ( ! function_exists( 'ot_type_background' ) ) {
           echo '<div class="option-tree-ui-media-wrap" id="' . esc_attr( $field_id ) . '_media">';
           
             if ( preg_match( '/\.(?:jpe?g|png|gif|ico)$/i', $field_value['background-image'] ) )
-              echo '<div class="option-tree-ui-image-wrap"><img src="' . esc_url( $field_value['background-image'] ) . '" alt="" /></div><div class="clear"></div>';
+              echo '<div class="option-tree-ui-image-wrap"><img src="' . esc_url( $field_value['background-image'] ) . '" alt="" /></div>';
             
             echo '<a href="javascript:(void);" class="option-tree-ui-remove-media option-tree-ui-button red light" title="' . __( 'Remove Media', 'option-tree' ) . '"><span class="icon trash-can">' . __( 'Remove Media', 'option-tree' ) . '</span></a>';
             
@@ -285,7 +283,7 @@ if ( ! function_exists( 'ot_type_checkbox' ) ) {
     echo '<div class="format-setting type-checkbox">';
             
       /* format setting inner wrapper */
-      echo '<div class="format-setting-inner">';
+      echo '<div class="format-setting-inner">';    
       
         /* build checkbox */
         foreach ( (array) $field_choices as $key => $choice ) {
@@ -343,325 +341,6 @@ if ( ! function_exists( 'ot_type_colorpicker' ) ) {
           
           echo '<div id="cp_' . esc_attr( $field_id ) . '" class="cp_box"' . ( $field_value ? " style='background-color:" . esc_attr( $field_value ) . "; border-color:$border_color;'" : '' ) . '></div>';
         
-        echo '</div>';
-      
-      echo '</div>';
-
-    echo '</div>';
-    
-  }
-  
-}
-
-/**
- * Colorpicker option type. Connect to WordPress Customizer
- *
- * See @ot_display_by_type to see the full list of available arguments.
- *
- * @param     array     An array of arguments.
- * @return    string
- *
- * @access    public
- * @since     2.0
- */
-if ( ! function_exists( 'ot_type_colorpicker_customizer' ) ) {
-  
-  function ot_type_colorpicker_customizer( $args = array() ) {
-    
-    /* turns arguments array into variables */
-    extract( $args );
-    
-    /* get value from WordPress Customizer */
-    $field_value = get_option($field_id , '#F1C40F');    
-        
-    /* format setting outer wrapper */
-    echo '<div class="format-setting type-colorpicker">';
-            
-      /* format setting inner wrapper */
-      echo '<div class="format-setting-inner">'; 
-        
-        /* build colorpicker */  
-        echo '<div class="option-tree-ui-colorpicker-input-wrap">';
-          
-          /* colorpicker JS */      
-          echo '<script>jQuery(document).ready(function($) { OT_UI.bind_colorpicker("' . esc_attr( $field_id ) . '"); });</script>';
-        
-          /* input */
-          echo '<input maxlength="7" type="text" name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_id ) . '" value="' . esc_attr( $field_value ) . '" class="widefat option-tree-ui-input cp_input ' . esc_attr( $field_class ) . '" autocomplete="off" />';
-              
-          /* set border color */
-          $border_color = in_array( $field_value, array( '#FFFFFF', '#FFF', '#ffffff', '#fff' ) ) ? '#ccc' : esc_attr( $field_value );
-          
-          echo '<div id="cp_' . esc_attr( $field_id ) . '" class="cp_box"' . ( $field_value ? " style='background-color:" . esc_attr( $field_value ) . "; border-color:$border_color;'" : '' ) . '></div>';
-        
-        echo '</div>';
-      
-      echo '</div>';
-
-    echo '</div>';
-    
-  }
-  
-}
-
-/**
- * Button Colorpicker option type.
- *
- * See @ot_display_by_type to see the full list of available arguments.
- *
- * @param     array     An array of arguments.
- * @return    string
- *
- * @access    public
- * @since     2.0
- */
-if ( ! function_exists( 'ot_type_button_builder' ) ) {
-  
-  function ot_type_button_builder( $args = array() ) {
-    
-    /* turns arguments array into variables */
-    extract( $args );
-        
-    /* format setting outer wrapper */
-    echo '<div class="format-setting type-button-builder">';
-            
-      /* format setting inner wrapper */
-      echo '<div class="format-setting-inner">'; 
-                
-        /* build colorpicker for button color */  
-        echo '<div class="option-tree-ui-colorpicker-input-wrap">';
-          
-          /* colorpicker JS */      
-          echo '<script>jQuery(document).ready(function($) { OT_UI.bind_colorpicker("' . esc_attr( $field_id ) . '_color"); });</script>';
-          /* input */
-          echo '<label for="' . esc_attr( $field_id ) . '_color">' . __('Button Background Color' , 'unitedthemes') . '</label><br />';          
-          echo '<input maxlength="7" type="text" name="' . esc_attr( $field_name ) . '[color]" id="' . esc_attr( $field_id ) . '_color" value="' . ( isset( $field_value['color'] ) ? esc_attr( $field_value['color'] ) : '' ) . '" class="widefat option-tree-ui-input cp_input ' . esc_attr( $field_class ) . '" autocomplete="off" />';
-          
-          /* set border color */
-          if( isset($field_value['color']) && in_array( $field_value['color'], array( '#FFFFFF', '#FFF', '#ffffff', '#fff' ) ) ) {
-            
-            $border_color = '#ccc';
-          
-          } elseif( isset($field_value['color']) ) {
-            
-            $border_color = esc_attr( $field_value['color'] );
-            
-          } else {
-            
-            $border_color = '';
-          
-          }
-          
-          echo '<div id="cp_' . esc_attr( $field_id ) . '_color" class="cp_box"' . ( !empty($field_value['color']) && $field_value['color'] ? " style='background-color:" . esc_attr( $field_value['color'] ) . "; border-color:$border_color;'" : '' ) . '></div>';
-
-        echo '</div>';
-        
-        
-        /* build colorpicker for button hover color */  
-        echo '<div class="option-tree-ui-colorpicker-input-wrap">';
-          
-          /* colorpicker JS */      
-          echo '<script>jQuery(document).ready(function($) { OT_UI.bind_colorpicker("' . esc_attr( $field_id ) . '_hover_color"); });</script>';
-          
-          /* input */
-          echo '<label for="' . esc_attr( $field_id ) . '_hover_color">' . __('Button Background Hover Color' , 'unitedthemes') . '</label><br />';
-          echo '<input maxlength="7" type="text" name="' . esc_attr( $field_name ) . '[hover_color]" id="' . esc_attr( $field_id ) . '_hover_color" value="' . ( isset( $field_value['hover_color'] ) ? esc_attr( $field_value['hover_color'] ) : '' ) . '" class="widefat option-tree-ui-input cp_input ' . esc_attr( $field_class ) . '" autocomplete="off" />';
-          
-          /* set border color */
-          if( isset($field_value['hover_color']) && in_array( $field_value['hover_color'], array( '#FFFFFF', '#FFF', '#ffffff', '#fff' ) ) ) {
-            
-            $border_color = '#ccc';
-          
-          } elseif( isset($field_value['hover_color']) ) {
-            
-            $border_color = esc_attr( $field_value['hover_color'] );
-            
-          } else {
-            
-            $border_color = '';
-          
-          }
-          
-          echo '<div id="cp_' . esc_attr( $field_id ) . '_hover_color" class="cp_box"' . ( !empty($field_value['hover_color']) && $field_value['hover_color'] ? " style='background-color:" . esc_attr( $field_value['hover_color'] ) . "; border-color:$border_color;'" : '' ) . '></div>';
-
-        echo '</div>';
-        
-        echo '<hr />';        
-        
-        /* build colorpicker for button text color */  
-        echo '<div class="option-tree-ui-colorpicker-input-wrap">';
-          
-          /* colorpicker JS */      
-          echo '<script>jQuery(document).ready(function($) { OT_UI.bind_colorpicker("' . esc_attr( $field_id ) . '_text_color"); });</script>';
-          
-          /* input */
-          echo '<label for="' . esc_attr( $field_id ) . '_text_color">' . __('Button Text Color' , 'unitedthemes') . '</label><br />';
-          echo '<input maxlength="7" type="text" name="' . esc_attr( $field_name ) . '[text_color]" id="' . esc_attr( $field_id ) . '_text_color" value="' . ( isset( $field_value['text_color'] ) ? esc_attr( $field_value['text_color'] ) : '' ) . '" class="widefat option-tree-ui-input cp_input ' . esc_attr( $field_class ) . '" autocomplete="off" />';
-          
-          /* set border color */
-          if( isset($field_value['text_color']) && in_array( $field_value['text_color'], array( '#FFFFFF', '#FFF', '#ffffff', '#fff' ) ) ) {
-            
-            $border_color = '#ccc';
-          
-          } elseif( isset($field_value['text_color']) ) {
-            
-            $border_color = esc_attr( $field_value['text_color'] );
-            
-          } else {
-            
-            $border_color = '';
-          
-          }
-          
-          echo '<div id="cp_' . esc_attr( $field_id ) . '_text_color" class="cp_box"' . ( !empty($field_value['text_color']) && $field_value['text_color'] ? " style='background-color:" . esc_attr( $field_value['text_color'] ) . "; border-color:$border_color;'" : '' ) . '></div>';
-
-        echo '</div>';
-        
-        
-        /* build colorpicker for button text hover color */  
-        echo '<div class="option-tree-ui-colorpicker-input-wrap">';
-          
-          /* colorpicker JS */      
-          echo '<script>jQuery(document).ready(function($) { OT_UI.bind_colorpicker("' . esc_attr( $field_id ) . '_text_hover_color"); });</script>';
-          
-          /* input */
-          echo '<label for="' . esc_attr( $field_id ) . '_text_hover_color">' . __('Button Text Hover Color' , 'unitedthemes') . '</label><br />';
-          echo '<input maxlength="7" type="text" name="' . esc_attr( $field_name ) . '[text_hover_color]" id="' . esc_attr( $field_id ) . '_text_hover_color" value="' . ( isset( $field_value['text_hover_color'] ) ? esc_attr( $field_value['text_hover_color'] ) : '' ) . '" class="widefat option-tree-ui-input cp_input ' . esc_attr( $field_class ) . '" autocomplete="off" />';
-          
-          /* set border color */
-          if( isset($field_value['text_hover_color']) && in_array( $field_value['text_hover_color'], array( '#FFFFFF', '#FFF', '#ffffff', '#fff' ) ) ) {
-            
-            $border_color = '#ccc';
-          
-          } elseif( isset($field_value['text_hover_color']) ) {
-            
-            $border_color = esc_attr( $field_value['text_hover_color'] );
-            
-          } else {
-            
-            $border_color = '';
-          
-          }
-          
-          echo '<div id="cp_' . esc_attr( $field_id ) . '_text_hover_color" class="cp_box"' . ( !empty($field_value['text_hover_color']) && $field_value['text_hover_color'] ? " style='background-color:" . esc_attr( $field_value['text_hover_color'] ) . "; border-color:$border_color;'" : '' ) . '></div>';
-
-        echo '</div>';
-        
-        echo '<hr />';
-        
-        echo '<div class="ot-numeric-slider-wrap">';
-          
-          echo '<label for="' . esc_attr( $field_id ) . '_border_radius">' . __('Button Border Radius' , 'unitedthemes') . '</label><br />';
-          
-          echo '<input type="hidden" name="' . esc_attr( $field_name ) . '[border_radius]" id="' . esc_attr( $field_id ) . '_border_radius" class="ot-numeric-slider-hidden-input" value="' . ( isset( $field_value['border_radius'] ) ? esc_attr( $field_value['border_radius'] ) : '' ) . '" data-min="0" data-max="50" data-step="1">';
-
-          echo '<input type="text" class="ot-numeric-slider-helper-input widefat option-tree-ui-input" value="' . ( isset( $field_value['border_radius'] ) ? esc_attr( $field_value['border_radius'] ) : '' ) . '" readonly>';
-
-          echo '<div id="ot_numeric_slider_' . esc_attr( $field_id ) . '_border_radius" class="ot-numeric-slider"></div>';
-
-        echo '</div>';
-        
-        echo '<div class="clear"></div>';        
-        
-        echo '<hr />';
-        
-        /* build colorpicker for button border color */  
-        echo '<div class="option-tree-ui-colorpicker-input-wrap">';
-          
-          /* colorpicker JS */      
-          echo '<script>jQuery(document).ready(function($) { OT_UI.bind_colorpicker("' . esc_attr( $field_id ) . '_border_color"); });</script>';
-          
-          /* input */
-          echo '<label for="' . esc_attr( $field_id ) . '_border_color">' . __('Button Border Color' , 'unitedthemes') . '</label><br />';
-          echo '<input maxlength="7" type="text" name="' . esc_attr( $field_name ) . '[border_color]" id="' . esc_attr( $field_id ) . '_border_color" value="' . ( isset( $field_value['border_color'] ) ? esc_attr( $field_value['border_color'] ) : '' ) . '" class="widefat option-tree-ui-input cp_input ' . esc_attr( $field_class ) . '" autocomplete="off" />';
-          
-          /* set border color */
-          if( isset($field_value['border_color']) && in_array( $field_value['border_color'], array( '#FFFFFF', '#FFF', '#ffffff', '#fff' ) ) ) {
-            
-            $border_color = '#ccc';
-          
-          } elseif( isset($field_value['border_color']) ) {
-            
-            $border_color = esc_attr( $field_value['border_color'] );
-            
-          } else {
-            
-            $border_color = '';
-          
-          }
-          
-          echo '<div id="cp_' . esc_attr( $field_id ) . '_border_color" class="cp_box"' . ( !empty($field_value['border_color']) && $field_value['border_color'] ? " style='background-color:" . esc_attr( $field_value['border_color'] ) . "; border-color:$border_color;'" : '' ) . '></div>';
-
-        echo '</div>';
-        
-        
-        /* build colorpicker for button text hover color */  
-        echo '<div class="option-tree-ui-colorpicker-input-wrap">';
-          
-          /* colorpicker JS */      
-          echo '<script>jQuery(document).ready(function($) { OT_UI.bind_colorpicker("' . esc_attr( $field_id ) . '_border_hover_color"); });</script>';
-          
-          /* input */
-          echo '<label for="' . esc_attr( $field_id ) . '_border_hover_color">' . __('Button Border Hover Color' , 'unitedthemes') . '</label><br />';
-          echo '<input maxlength="7" type="text" name="' . esc_attr( $field_name ) . '[border_hover_color]" id="' . esc_attr( $field_id ) . '_border_hover_color" value="' . ( isset( $field_value['border_hover_color'] ) ? esc_attr( $field_value['border_hover_color'] ) : '' ) . '" class="widefat option-tree-ui-input cp_input ' . esc_attr( $field_class ) . '" autocomplete="off" />';
-          
-          /* set border color */
-          if( isset($field_value['border_hover_color']) && in_array( $field_value['border_hover_color'], array( '#FFFFFF', '#FFF', '#ffffff', '#fff' ) ) ) {
-            
-            $border_color = '#ccc';
-          
-          } elseif( isset($field_value['border_hover_color']) ) {
-            
-            $border_color = esc_attr( $field_value['border_hover_color'] );
-            
-          } else {
-            
-            $border_color = '';
-          
-          }
-          
-          echo '<div id="cp_' . esc_attr( $field_id ) . '_border_hover_color" class="cp_box"' . ( !empty($field_value['border_hover_color']) && $field_value['border_hover_color'] ? " style='background-color:" . esc_attr( $field_value['border_hover_color'] ) . "; border-color:$border_color;'" : '' ) . '></div>';
-
-        echo '</div>';        
-        
-        echo '<hr />';
-        
-        if( function_exists('ut_recognized_icons') ) :
-        
-            echo '<div class="ot-icon-chooser-wrap">';
-                
-                echo '<div class="ut-icon-preview"><i class="ut-preview-icon fa ' . ( isset( $field_value['icon'] ) ? esc_attr( $field_value['icon'] ) : '' ) . '"></i><a href="#" class="ut-delete-icon"><i class="fa fa-times-circle"></i></a></div>';
-                echo '<input style="visibility:hidden;display:none;" type="text" name="' . esc_attr( $field_name ) . '[icon]" id="' . esc_attr( $field_id ) . '_icon" value="' . ( isset( $field_value['icon'] ) ? esc_attr( $field_value['icon'] ) : '' ) . '" class="widefat option-tree-ui-input cp_input ' . esc_attr( $field_class ) . '" autocomplete="off" />';
-                echo '<a class="ut-choose-icon option-tree-list-item-add option-tree-ui-button blue">Choose Icon</a>';
-                    
-            echo '</div>';        
-        
-        endif;
-        
-        echo '<div class="clear"></div>';
-        
-        echo '<hr />';
-        
-        $font_size = isset( $field_value['font-size'] ) ? esc_attr( $field_value['font-size'] ) : '';
-        echo '<div class="ut-input-wrap">';
-            echo '<label for="' . esc_attr( $field_id ) . '-font-size">' . __('Button Font Size' , 'unitedthemes') . '</label><br />';
-            echo '<select name="' . esc_attr( $field_name ) . '[font-size]" id="' . esc_attr( $field_id ) . '-font-size" class="option-tree-ui-select ' . esc_attr( $field_class ) . '">';
-              echo '<option value="">font-size</option>';
-              foreach( ot_recognized_font_sizes( $field_id ) as $option ) { 
-                echo '<option value="' . esc_attr( $option ) . '" ' . selected( $font_size, $option, false ) . '>' . esc_attr( $option ) . '</option>';
-              }
-            echo '</select>';
-        echo '</div>';   
-        
-        $text_transform = isset( $field_value['text-transform'] ) ? esc_attr( $field_value['text-transform'] ) : '';
-        echo '<div class="ut-input-wrap">';
-            echo '<label for="' . esc_attr( $field_id ) . '-text-transform">' . __('Button Text Transform' , 'unitedthemes') . '</label><br />';
-            echo '<select name="' . esc_attr( $field_name ) . '[text-transform]" id="' . esc_attr( $field_id ) . '-text-transform" class="option-tree-ui-select ' . esc_attr( $field_class ) . '">';
-               echo '<option value="">text-transform</option>';
-               foreach ( ot_recognized_text_transformations( $field_id ) as $key => $value ) {
-                 echo '<option value="' . esc_attr( $key ) . '" ' . selected( $text_transform, $key, false ) . '>' . esc_attr( $value ) . '</option>';
-               }
-            echo '</select>';
         echo '</div>';
       
       echo '</div>';
@@ -851,11 +530,11 @@ if ( ! function_exists( 'ot_type_list_item' ) ) {
         if ( is_array( $field_value ) && ! empty( $field_value ) ) {
         
           foreach( $field_value as $key => $list_item ) {
-            if( array_filter($list_item) ) {
+            
             echo '<li class="ui-state-default list-list-item">';
               ot_list_item_view( $field_id, $key, $list_item, $post_id, $get_option, $field_settings, $type );
             echo '</li>';
-            }
+            
           }
           
         }
@@ -1333,87 +1012,6 @@ if ( ! function_exists( 'ot_type_radio' ) ) {
 }
 
 /**
- * Radio option type.
- *
- * See @ot_display_by_type to see the full list of available arguments.
- *
- * @param     array     An array of arguments.
- * @return    string
- *
- * @access    public
- * @since     2.0
- */
-if ( ! function_exists( 'ot_type_radio_group' ) ) {
-  
-  function ot_type_radio_group( $args = array() ) {
-    
-    /* turns arguments array into variables */
-    extract( $args );
-        
-    /* format setting outer wrapper */
-    echo '<div class="format-setting type-radio">';
-            
-      /* format setting inner wrapper */
-      echo '<div class="format-setting-inner ot-type-radio-group" data-group="' . esc_attr( $field_name ) . '">';
-      
-        /* build radio */
-        foreach ( (array) $field_choices as $key => $choice ) {
-          echo '<p><input data-for="' . esc_attr( implode(',' , $choice['for'] ) ) . '" type="radio" name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_id ) . '-' . esc_attr( $key ) . '" value="' . esc_attr( $choice['value'] ) . '"' . checked( $field_value, $choice['value'], false ) . ' class="radio option-tree-ui-radio option-tree-ui-group-radio ' . esc_attr( $field_class ) . ' ' . ( isset($field_toplevel) && $field_toplevel ? 'ut-toplevel-radio-option' : '' ) . '" /><label for="' . esc_attr( $field_id ) . '-' . esc_attr( $key ) . '">' . esc_attr( $choice['label'] ) . '</label></p>';
-        }
-      
-      echo '</div>';
-    
-    echo '</div>';
-    
-  }
-  
-}
-
-if ( ! function_exists( 'ot_type_radio_group_button' ) ) {
-  
-  function ot_type_radio_group_button( $args = array() ) {
-    
-    /* turns arguments array into variables */
-    extract( $args );
-        
-    /* format setting outer wrapper */
-    echo '<div class="format-setting type-radio">';
-            
-      /* format setting inner wrapper */
-      echo '<div class="format-setting-inner ot-type-radio-group" data-group="' . esc_attr( $field_name ) . '">';
-        
-        /* build buttons */
-        echo '<div class="ut-radio-button-group">';
-            
-            foreach ( (array) $field_choices as $key => $choice ) {
-                
-                $custom_class = !empty( $choice['class'] ) ? $choice['class'] : '';
-                
-                $selected = ( $field_value == $choice['value'] ) ? 'selected' : '';
-                echo '<a href="#" data-for="' . esc_attr( $field_id ) . '-' . esc_attr( $key ) . '" title="' . esc_attr( $choice['label'] ) . '" class="ut-radio-button '.$selected.' '.$custom_class.'">' . esc_attr( $choice['label'] ) . '</a>';  
-              
-            }
-                        
-            if( !empty($field_desc) ) {
-                echo '<div class="description">' . htmlspecialchars_decode( $field_desc ) . '</div>';
-            }  
-              
-        echo '</div>';
-        
-        /* build radio */
-        foreach ( (array) $field_choices as $key => $choice ) {
-          echo '<p style="display: none;"><input data-for="' . esc_attr( implode(',' , $choice['for'] ) ) . '" type="radio" name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_id ) . '-' . esc_attr( $key ) . '" value="' . esc_attr( $choice['value'] ) . '"' . checked( $field_value, $choice['value'], false ) . ' class="radio option-tree-ui-radio option-tree-ui-group-radio ' . esc_attr( $field_class ) . '" /><label for="' . esc_attr( $field_id ) . '-' . esc_attr( $key ) . '">' . esc_attr( $choice['label'] ) . '</label></p>';
-        }
-        
-      echo '</div>';
-    
-    echo '</div>';
-    
-  }
-  
-}
-
-/**
  * Radio Images option type.
  *
  * See @ot_display_by_type to see the full list of available arguments.
@@ -1488,12 +1086,7 @@ if ( ! function_exists( 'ot_type_select' ) ) {
             
       /* format setting inner wrapper */
       echo '<div class="format-setting-inner">';
-        
-        /* fallback for older version */
-        if( is_array( $field_value ) ) {
-            $field_value = implode("", $field_value);
-        }        
-        
+      
         /* build select */
         echo '<select name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_id ) . '" class="option-tree-ui-select ' . esc_attr( $field_class ) . '">';
         foreach ( (array) $field_choices as $choice ) {
@@ -1520,24 +1113,19 @@ if ( ! function_exists( 'ot_type_select_group' ) ) {
   function ot_type_select_group( $args = array() ) {
     
     /* turns arguments array into variables */
-    extract( $args ); 
+    extract( $args );
         
     /* format setting outer wrapper */
     echo '<div class="format-setting type-select">';
             
       /* format setting inner wrapper */
-      echo '<div class="format-setting-inner" data-group="' . esc_attr( $field_name ) . '">';
-        
-        /* fallback for older version */
-        if( is_array( $field_value ) ) {
-            $field_value = implode("", $field_value);
-        }
-        
+      echo '<div class="format-setting-inner">';
+      
         /* build select */
-        echo '<select name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_id ) . '" class="option-tree-ui-select option-tree-ui-group-select ' . esc_attr( $field_class ) . ' ' . ( isset($field_toplevel) && $field_toplevel ? 'ut-toplevel-select-option' : '' ) . '">';
+        echo '<select name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_id ) . '" class="option-tree-ui-select option-tree-ui-group-select ' . esc_attr( $field_class ) . '">';
         foreach ( (array) $field_choices as $choice ) {
           if ( isset( $choice['value'] ) && isset( $choice['label'] ) ) {
-            echo '<option class="select-group-option-' . esc_attr( $choice['value'] ) . '" data-orglabel="' . esc_attr( $choice['label'] ) . '" data-altlabel="' . ( isset($choice['alt_label']) ? esc_attr( $choice['alt_label'] ) : '' ) . '" data-for="' . ( isset($choice['for']) && is_array($choice['for']) ? esc_attr( implode(',' , $choice['for'] ) ) : '' ) . '" value="' . esc_attr( $choice['value'] ) . '"' . selected( $field_value, $choice['value'], false ) . '>' . esc_attr( $choice['label'] ) . '</option>';
+            echo '<option data-for="' . esc_attr( $choice['for'] ) . '" value="' . esc_attr( $choice['value'] ) . '"' . selected( $field_value, $choice['value'], false ) . '>' . esc_attr( $choice['label'] ) . '</option>';
           }
         }
         
@@ -1876,10 +1464,7 @@ if ( ! function_exists( 'ot_type_textarea' ) ) {
             
       /* format setting inner wrapper */
       echo '<div class="format-setting-inner">';
-        
-        /* create a min height due to a minor bug since WP4.0*/
-        echo '<style type="text/css">#'.$field_id.'_ifr {min-height:150px;}</style>';
-        
+      
         /* build textarea */
         wp_editor( 
           $field_value, 
@@ -1936,10 +1521,6 @@ if ( ! function_exists( 'ot_type_textarea_simple' ) ) {
         
         /* build textarea simple */
         echo '<textarea class="textarea ' . esc_attr( $field_class ) . '" rows="' . esc_attr( $field_rows )  . '" cols="40" name="' . esc_attr( $field_name ) .'" id="' . esc_attr( $field_id ) . '">' . esc_textarea( $field_value ) . '</textarea>';
-        
-        if(!empty($field_htmldesc)) {
-            echo '<pre>' . $field_htmldesc . '</pre>';
-        }
         
       echo '</div>';
       
@@ -2483,67 +2064,7 @@ if ( ! function_exists( 'ot_type_upload' ) ) {
           echo '<div class="option-tree-ui-media-wrap" id="' . esc_attr( $field_id ) . '_media">';
           
             if ( preg_match( '/\.(?:jpe?g|png|gif|ico)$/i', $field_value ) )
-              echo '<div class="option-tree-ui-image-wrap"><img src="' . esc_url( $field_value ) . '" alt="" /></div><div class="clear"></div>';
-            
-            echo '<a href="javascript:(void);" class="option-tree-ui-remove-media option-tree-ui-button red light" title="' . __( 'Remove Media', 'option-tree' ) . '"><span class="icon trash-can">' . __( 'Remove Media', 'option-tree' ) . '</span></a>';
-            
-          echo '</div>';
-          
-        }
-        
-      echo '</div>';
-    
-    echo '</div>';
-    
-  }
-  
-}
-
-/**
- * Upload option type. Connect to WordPress Customizer
- *
- * See @ot_display_by_type to see the full list of available arguments.
- *
- * @param     array     An array of arguments.
- * @return    string
- *
- * @access    public
- * @since     2.0
- */
-if ( ! function_exists( 'ot_type_upload_customizer' ) ) {
-  
-  function ot_type_upload_customizer( $args = array() ) {
-    
-    /* turns arguments array into variables */
-    extract( $args );
-    
-    /* get option from theme mod */
-    $field_value = get_theme_mod($field_id);
-        
-    /* format setting outer wrapper */
-    echo '<div class="format-setting type-upload">';
-            
-      /* format setting inner wrapper */
-      echo '<div class="format-setting-inner">';
-      
-        /* build upload */
-        echo '<div class="option-tree-ui-upload-parent">';
-          
-          /* input */
-          echo '<input type="text" name="' . esc_attr( $field_name ) . '" id="' . esc_attr( $field_id ) . '" value="' . esc_attr( $field_value ) . '" class="widefat option-tree-ui-upload-input ' . esc_attr( $field_class ) . '" />';
-          
-          /* add media button */
-          echo '<a href="javascript:void(0);" class="ot_upload_media option-tree-ui-button blue light" rel="' . $post_id . '" title="' . __( 'Add Media', 'option-tree' ) . '"><span class="icon upload">' . __( 'Add Media', 'option-tree' ) . '</span></a>';
-        
-        echo '</div>';
-        
-        /* media */
-        if ( $field_value ) {
-        
-          echo '<div class="option-tree-ui-media-wrap" id="' . esc_attr( $field_id ) . '_media">';
-          
-            if ( preg_match( '/\.(?:jpe?g|png|gif|ico)$/i', $field_value ) )
-              echo '<div class="option-tree-ui-image-wrap"><img src="' . esc_url( $field_value ) . '" alt="" /></div><div class="clear"></div>';
+              echo '<div class="option-tree-ui-image-wrap"><img src="' . esc_url( $field_value ) . '" alt="" /></div>';
             
             echo '<a href="javascript:(void);" class="option-tree-ui-remove-media option-tree-ui-button red light" title="' . __( 'Remove Media', 'option-tree' ) . '"><span class="icon trash-can">' . __( 'Remove Media', 'option-tree' ) . '</span></a>';
             

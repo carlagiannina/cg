@@ -31,6 +31,6 @@ get_header(); ?>
             
 		</div>
 		
-        <div class="ut-scroll-up-waypoint" data-section="section-<?php echo ut_clean_section_id($post->post_name); ?>"></div>
+        <div class="ut-scroll-up-waypoint" data-section="section-<?php echo $post->post_name; ?>"></div>
         
 <?php get_footer(); ?>

@@ -36,30 +36,14 @@ if ( !function_exists( 'ut_needed_js' ) ) {
         
 		global $detect;
 		
-        /* check for js cache */
-        if( ot_get_option('ut_use_cache' , 'off') == 'on' && is_front_page() ) {
-            
-            $transient_prefix = $detect->isMobile() ? '_mobile' : '_desktop'; 
-            $js = get_transient( 'ut_js_cache'. $transient_prefix );
-            
-            if( !empty($js) ) {
-                echo apply_filters( 'ut-custom-js', $js );
-                return;
-            }
-        
-        }        
-        
 		$accentcolor = get_option('ut_accentcolor' , '#CC5E53');
-		$ut_hero_type = ut_return_hero_config('ut_hero_type');
-        
+		
         $js = '(function($){
         	
 				"use strict";
 		
 				$(document).ready(function(){ ';
 			    
-                $js .= 'var brooklyn_scroll_offset = $("#header-section").outerHeight();';
-                
                 /*
 				|--------------------------------------------------------------------------
 				| Retina Logo
@@ -102,8 +86,37 @@ if ( !function_exists( 'ut_needed_js' ) ) {
 				*/
                 
                 if( ot_get_option('ut_use_image_loader') == 'on' ) :
+                						
+					$loader_for 	= ot_get_option('ut_use_image_loader_on');
+					$loader_match 	= false;
 					
-					if( ut_dynamic_conditional('ut_use_image_loader_on') ) : 
+					if( !empty($loader_for) && is_array($loader_for) ) :
+					 	
+						foreach( $loader_for as $key => $conditional ) {
+						
+							if( $conditional() ) {
+								
+								$loader_match = true;
+								
+								/* front page gets handeled as a page too */
+								if( $conditional == 'is_page' && is_front_page() ) {
+									
+									$loader_match = false;
+										
+								} else {
+								
+									/* we have a match , so we can stop the loop */
+									break;
+								
+								}
+								
+							} 
+							
+						}
+					
+					endif;
+					
+					if( $loader_match ) : 
 					
 						/* settings for pre loader */
 						$loadercolor = ot_get_option( 'ut_image_loader_color' , $accentcolor );
@@ -112,7 +125,7 @@ if ( !function_exists( 'ut_needed_js' ) ) {
 						$bar_height = ot_get_option('ut_image_loader_barheight', 3 );
 						$ut_show_loader_bar = ot_get_option('ut_show_loader_bar' , 'on');
 																
-						if( $detect->isMobile() ) :
+						if( $detect->isMobile() || $detect->isTablet() ) :
 							
 							$js .= 'window.addEventListener("DOMContentLoaded", function() {
 															
@@ -168,9 +181,8 @@ if ( !function_exists( 'ut_needed_js' ) ) {
 				|--------------------------------------------------------------------------
 				| Slogan / Welcome Message Animation
 				|--------------------------------------------------------------------------
-				*/
-                 
-				if( $ut_hero_type != 'slider' ) :
+				*/ 
+				if( (is_front_page() && ot_get_option('ut_front_page_header_type') != 'slider') || (is_home() && ot_get_option('ut_blog_header_type') != 'slider') ) :
 				
 				$js .= '
 				$(window).load(function() {
@@ -185,23 +197,7 @@ if ( !function_exists( 'ut_needed_js' ) ) {
 				
 				endif;  
 				
-				/*
-				|--------------------------------------------------------------------------
-				| Fittext for Hero Style 11
-				|--------------------------------------------------------------------------
-				*/
-                if( ut_return_hero_config('ut_hero_style' , 'ut-hero-style-1') == 'ut-hero-style-11' ) :
-                    
-                    $js .= '
-                    
-                        $(".ut-hero-style-11 .hero-title").fitText(1.1, { minFontSize: "30px", maxFontSize: "130px" });
-	                    $(".ut-hero-style-11 .hero-description").fitText(1.6, { minFontSize: "20px", maxFontSize: "72px" });
-                        $(".ut-hero-style-11 .hero-description-bottom").fitText(2.0, { minFontSize: "14px", maxFontSize: "20px" });
-                    
-                    ';
-                
-                endif;
-                
+				
 				/*
 				|--------------------------------------------------------------------------
 				| Call to Action Button Scoll Animation
@@ -209,18 +205,18 @@ if ( !function_exists( 'ut_needed_js' ) ) {
 				|--------------------------------------------------------------------------
 				*/
 				
-				if( ut_is_plugin_active('ut-shortcodes/ut-shortcodes.php') ) {
+				if( ut_is_plugin_active('ut-shortcodes/ut.shortcodes.php') ) {
 				
-                    $js .= '
-                        $(".cta-btn a").click( function(event) { 
-                    
-                            if(this.hash) {
-                                $.scrollTo( this.hash , 650, { easing: "easeInOutExpo" , offset: -brooklyn_scroll_offset-1 , "axis":"y" } );			
-                                event.preventDefault();				
-                            }
-                            
-                        });				
-                    ';
+				$js .= '
+				$(".cta-btn a").click( function(event) { 
+			
+					if(this.hash) {
+						$.scrollTo( this.hash , 650, { easing: "easeInOutExpo" , offset: -79 , "axis":"y" } );			
+						event.preventDefault();				
+					}
+					
+				});				
+				';
 				
 				}
 				 
@@ -232,7 +228,7 @@ if ( !function_exists( 'ut_needed_js' ) ) {
 				|--------------------------------------------------------------------------
 				*/
                
-                if( ( is_home() || is_front_page() || is_singular('portfolio') || get_post_meta( get_the_ID() , 'ut_activate_page_hero' , true ) == 'on' ) && ot_get_option('ut_navigation_state' , 'off') == 'off' ) :
+                if( ( is_home() || is_front_page() || is_singular('portfolio') ) && ot_get_option('ut_navigation_state' , 'off') == 'off' ) :
                	
 				    $ut_navigation_skin = ot_get_option('ut_navigation_skin' , 'ut-header-light');
 			        $navigation_width = ot_get_option('ut_navigation_width' , 'centered');
@@ -275,13 +271,13 @@ if ( !function_exists( 'ut_needed_js' ) ) {
 							
                             ut_nav_skin_changer( direction , animClassDown , animClassUp );
                             
-						}, { offset: brooklyn_scroll_offset+1 } );
+						}, { offset: 80 } );
 						
 					});';
                 
                 endif;
 				
-			    if( ( is_home() || is_front_page() || is_singular('portfolio') || get_post_meta( get_the_ID() , 'ut_activate_page_hero' , true ) == 'on'  ) && ot_get_option('ut_navigation_state' , 'off') == 'on_transparent' ) :
+			    if( ( is_home() || is_front_page() || is_singular('portfolio') ) && ot_get_option('ut_navigation_state' , 'off') == 'on_transparent' ) :
                	
 					$ut_navigation_skin = ot_get_option('ut_navigation_skin' , 'ut-header-light');
 					$navigation_width = ot_get_option('ut_navigation_width' , 'centered');
@@ -308,7 +304,7 @@ if ( !function_exists( 'ut_needed_js' ) ) {
                                 
                             } else {
                                 
-                                $header.attr("class", "ha-header ha-transparent ' . $navigation_width . '");
+                                $header.attr("class", "ha-header ha-transparent");
                                 
                             }
                             
@@ -327,7 +323,7 @@ if ( !function_exists( 'ut_needed_js' ) ) {
                             
                         } else if( direction === "up" && !is_open ) {
                             
-                            $header.attr("class", "ha-header ha-transparent ' . $navigation_width . '");
+                            $header.attr("class", "ha-header ha-transparent");
                             $logo.attr("src" , logo );
                             
                             has_passed = false;
@@ -340,12 +336,12 @@ if ( !function_exists( 'ut_needed_js' ) ) {
                                                 
                         if( $header.hasClass("ha-transparent") && !has_passed ) {
                             
-                            $header.attr("class", "ha-header ' . $navigation_width . ' '.$ut_navigation_skin.'");
+                            $header.attr("class", "ha-header '.$ut_navigation_skin.'");
                             $logo.attr("src" , logoalt );                            
                                                         
                         } else if ( $header.hasClass("'.$ut_navigation_skin.'") && !has_passed ) {
                             
-                            $header.attr("class", "ha-header ' . $navigation_width . ' ha-transparent");
+                            $header.attr("class", "ha-header ha-transparent");
                             $logo.attr("src" , logo );                            
                             
                         }
@@ -372,7 +368,7 @@ if ( !function_exists( 'ut_needed_js' ) ) {
                             
                         }	
                         
-					}, { offset: brooklyn_scroll_offset+1 });';
+					}, { offset: 80 });';
                 
                 endif;
 				
@@ -381,7 +377,7 @@ if ( !function_exists( 'ut_needed_js' ) ) {
 				| Rain Effect for images
 				|--------------------------------------------------------------------------
 				*/
-				if( ut_return_hero_config('ut_hero_rain_effect' , 'off') == 'on' && ($ut_hero_type == 'image' || $ut_hero_type == 'tabs' || $ut_hero_type == 'splithero')) :
+				if( ( is_front_page() && ot_get_option('ut_front_header_rain' , 'off') == 'on' ) || ( is_home() && ot_get_option('ut_blog_header_rain' , 'off') == 'on' ) ) :
 					
 					$js .= '
 					
@@ -477,7 +473,7 @@ if ( !function_exists( 'ut_needed_js' ) ) {
 						
 					});';
 					
-					if( ut_return_hero_config('ut_hero_rain_sound' , 'off') == 'on' ) :					
+					if( ( is_front_page() && ot_get_option('ut_front_header_rain_sound' , 'off') == 'on' ) || ( is_home() && ot_get_option('ut_blog_header_rain_sound' , 'off') == 'on' ) ) :					
 					
 					$js .= '
 					
@@ -514,37 +510,40 @@ if ( !function_exists( 'ut_needed_js' ) ) {
 				|--------------------------------------------------------------------------
 				*/
 				
-				if( !$detect->isMobile() && $ut_hero_type == 'video' ) :
-				    
-                    $volume = ut_return_hero_config('ut_video_volume' , "5") ;
+				if( !$detect->isMobile() && !$detect->isTablet() ) :
+				
+					if( ( !is_front_page() && is_page() && ot_get_option('ut_page_video_state') == 'on' ) || ( is_front_page() && ot_get_option('ut_front_video_state') == 'on' ) || ( is_single() && ot_get_option('ut_single_video_state') == 'on' ) || ( is_home() && ot_get_option('ut_blog_video_state') == 'on' ) ) :				
+					
+					$volume = ( is_front_page() || is_page() ) ? ot_get_option('ut_front_video_volume' , "5") : ot_get_option('ut_blog_video_volume' , "5") ;
 					
 						$js .= '
-						if( $("#ut-background-video-hero").length ) {						
+						if( $(".ut-video-player").length ) {						
 							
-							$("#ut-background-video-hero").mb_YTPlayer();
+							$(".ut-video-player").mb_YTPlayer();
 							
 							/* player mute control */
-							$("#ut-video-hero-control.youtube").click(function(event){
+							$(".ut-video-control").click(function(event){
 								
-								if( $(this).hasClass("ut-unmute") ) {
+								event.preventDefault();		
+								
+								if( $(".ut-video-control").hasClass("ut-unmute") ) {
 									
 									$(this).removeClass("ut-unmute").addClass("ut-mute").text("MUTE");														
-									$("#ut-background-video-hero").unmuteYTPVolume();
-									$("#ut-background-video-hero").setYTPVolume('.$volume.');
+									$(".ut-video-player").unmuteYTPVolume();
+									$(".ut-video-player").setYTPVolume('.$volume.');
 									
 								} else {
 									
 									$(this).removeClass("ut-mute").addClass("ut-unmute").text("UNMUTE");
-									$("#ut-background-video-hero").muteYTPVolume();							
+									$(".ut-video-player").muteYTPVolume();							
 									
 								}
-	                            
-                                event.preventDefault();
-                                
+	
 							});
 							
 						}';					
 					
+					endif;
 					
                	endif;
 				
@@ -553,11 +552,25 @@ if ( !function_exists( 'ut_needed_js' ) ) {
 				| Slider Settings Hook
 				|--------------------------------------------------------------------------
 				*/ 
-				if( $ut_hero_type == 'slider' || is_singular("portfolio") && get_post_format() == 'gallery' ) : 
+				if( ( is_front_page() && ot_get_option('ut_front_page_header_type') == 'slider' ) || ( is_home() && ot_get_option('ut_blog_header_type') == 'slider') || is_singular("portfolio") && get_post_format() == 'gallery' ) : 
            			
-                    $animation		= ut_return_hero_config('ut_background_slider_animation' , 'fade');
-					$slideshowSpeed = ut_return_hero_config('ut_background_slider_slideshow_speed' , 7000);
-					$animationSpeed = ut_return_hero_config('ut_background_slider_animation_speed' , 600);					
+					/* slider options front page */
+					if( is_front_page() ) {
+						
+						$animation		= ot_get_option('front_animation' , 'fade');
+						$slideshowSpeed = ot_get_option('front_slideshow_speed' , 7000);
+						$animationSpeed = ot_get_option('front_animation_speed' , 600);
+						
+					}
+					
+					/* slider options blog */
+					if( is_home() ) {
+						
+						$animation		= ot_get_option('blog_animation', 'fade');
+						$slideshowSpeed = ot_get_option('blog_slideshow_speed' , 7000);
+						$animationSpeed = ot_get_option('blog_animation_speed' , 600);
+			
+					}
                     
                     if( is_singular("portfolio") ) {
                         
@@ -655,6 +668,37 @@ if ( !function_exists( 'ut_needed_js' ) ) {
 							/* change position of caption slider */
 							slider.animate( { top : ( $(window).height() - $hero_captions.find(".flex-active-slide").height() ) / 2 } , 100 , function() { 
 								
+								/* apply fittext */                                
+                                slider.find(".hero-holder").each(function() {
+                                        
+                                    var holder_classes = $(this).attr("class");
+                                    
+                                    if ( holder_classes!=undefined ) {
+                                        
+                                        if( holder_classes.search("ut-hero-style-2") > 0 ) {
+                                            
+                                            $(this).find(".hero-title").fitText(1.1, { minFontSize: "36px", maxFontSize: "70px" });   
+                                        
+                                        } else if( holder_classes.search("ut-hero-style-3") > 0 ) {
+                                        
+                                            $(this).find(".hero-title").fitText(1.1, { minFontSize: "36px", maxFontSize: "70px" }); 
+                                        
+                                        } else if( holder_classes.search("ut-hero-style-5") > 0 ) {
+                                        
+                                            $(this).find(".hero-title").fitText(1.1, { minFontSize: "36px", maxFontSize: "130px" }); 
+                                        
+                                        } else if( holder_classes.search("ut-hero-style-11") > 0 ) {
+                                        
+                                            $(this).find(".hero-title").fitText(1.1, { minFontSize: "36px", maxFontSize: "130px" });
+                                            $(this).find(".hero-description").fitText(1.6, { minFontSize: "20px", maxFontSize: "72px" });
+                                            $(this).find(".hero-description-bottom").fitText(2.0, { minFontSize: "14px", maxFontSize: "20px" }); 
+                                        
+                                        }                                  
+                                        
+                                    }
+                                                                    
+                                });
+
 								/* show hero holder */
 								var pos = $(".flex-active-slide").find(".hero-holder").data("animation"),
 									anim = { opacity: 1 };
@@ -709,10 +753,13 @@ if ( !function_exists( 'ut_needed_js' ) ) {
 				|--------------------------------------------------------------------------
 				| Parallax Effect for Header on Front Page
 				|--------------------------------------------------------------------------
-				*/ 								
-				if( ut_return_hero_config('ut_hero_image_parallax') == 'on' ) :
+				*/ 
+				
+				$ut_front_header_parallax = ot_get_option('ut_front_header_parallax' , 'on'); 
+				
+				if( is_front_page() && $ut_front_header_parallax == 'on' ) :
                 	
-					if( !$detect->isMobile() ) :
+					if( !$detect->isMobile() && !$detect->isTablet() ) :
 					
                 		$js .= '$(".hero.parallax-section").addClass("fixed").parallax("50%", 0.6);';
                 
@@ -725,13 +772,33 @@ if ( !function_exists( 'ut_needed_js' ) ) {
 				| Parallax Effect - disabled for mobile devices to much repaint cost
 				|--------------------------------------------------------------------------
 				*/ 
-				if( !$detect->isMobile() ) {			
+				if( !$detect->isMobile() && !$detect->isTablet() ) {			
 								
 					$js .= '$(".parallax-banner").addClass("fixed").each(function() {                
 						$(this).parallax( "50%", 0.6 ); 
 					});';
 							
-				}                
+				}			
+				
+				
+				/*
+				|--------------------------------------------------------------------------
+				| Parallax Effect for Header on Blog
+				|--------------------------------------------------------------------------
+				*/ 
+				
+				$ut_blog_header_parallax = ot_get_option('ut_blog_header_parallax' , 'on');
+                
+                if( is_home() && $ut_blog_header_parallax == 'on' ) :
+                	
+					if( !$detect->isMobile() && !$detect->isTablet() ) :
+					
+                		$js .= '$(".hero.parallax-section").addClass("fixed").parallax("50%", 0.6);';
+                	
+					endif;
+					
+                endif;
+                
                 
                 /*
 				|--------------------------------------------------------------------------
@@ -743,7 +810,7 @@ if ( !function_exists( 'ut_needed_js' ) ) {
 				
 				if( $ut_csection_parallax == 'on' ) : 
                 	
-					if( !$detect->isMobile() ) :
+					if( !$detect->isMobile() && !$detect->isTablet() ) :
 					
                 		$js .= '$(".contact-section.parallax-section").addClass("fixed").parallax("50%", 0.6,true);';
                 	
@@ -760,7 +827,7 @@ if ( !function_exists( 'ut_needed_js' ) ) {
 				
 				global $detect;
 				
-				if( !$detect->isMobile() && ot_get_option('ut_animate_sections' , 'on') == 'on' ) : 
+				if( !$detect->isMobile() && !$detect->isTablet() && ot_get_option('ut_animate_sections' , 'on') == 'on' ) : 
 						
 						$csection_timer = ot_get_option('ut_animate_sections_timer' , '1600');
 						
@@ -774,7 +841,6 @@ if ( !function_exists( 'ut_needed_js' ) ) {
 								offset = "70%";
 							}
 							
-                            $(this).waypoint("destroy");
 							$(this).waypoint( function( direction ) {
 								
 								var $this = $(this);
@@ -788,11 +854,7 @@ if ( !function_exists( 'ut_needed_js' ) ) {
 								
 							} , { offset: offset } );			
 								
-						});
-                        
-                        $(window).load(function(){
-                            $(window).trigger("resize");
-                        });';             
+						});';             
             	
 				endif;
 					                
@@ -800,15 +862,6 @@ if ( !function_exists( 'ut_needed_js' ) ) {
 			
         })(jQuery);';
 		
-        /* check for css cache */
-        if( ot_get_option('ut_use_cache' , 'off') == 'on' && is_front_page() ) {
-            
-            $transient_prefix = $detect->isMobile() ? '_mobile' : '_desktop'; 
-            $cacheTime = ot_get_option('ut_cache_ltime' , '10');            
-            set_transient('ut_js_cache' . $transient_prefix, $js, 60*$cacheTime);
-        
-        }
-        
 		echo apply_filters( 'ut-custom-js' , $js );
                 
     }

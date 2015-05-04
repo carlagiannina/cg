@@ -18,8 +18,7 @@ $ut_local_member_count = NULL;
 $team = get_post_meta( $post->ID , 'ut_team_member' , true );
 
 /* needed vars */
-$ut_page_skin = get_post_meta( $post->ID , 'ut_section_skin' , true);
-$ut_page_class = get_post_meta( $post->ID , 'ut_section_class' , true);
+$ut_section_skin = get_post_meta( $post->ID , 'ut_section_skin' , true);
 
 /* member box layout and clear settings for style 3 */
 $ut_member_box_layout 	= get_post_meta( $post->ID , 'ut_member_box_layout' , true);
@@ -29,7 +28,7 @@ $clear 					= NULL;
 
 $grid = array(  'three'  => array('class' => 'grid-33 tablet-grid-33 mobile-grid-100' , 'value' => '3'),
 				'four' 	 => array('class' => 'grid-25 tablet-grid-50 mobile-grid-100' , 'value' => '4'), 
-				'two'	 => array('class' => 'grid-50 tablet-grid-50 mobile-grid-50' , 'value' => '2'),
+				'two'	 => array('class' => 'grid-50 tablet-grid-50 mobile-grid-100' , 'value' => '2'),
 				'one'	 => array('class' => 'prefix-25 grid-50 mobile-grid-100 tablet-grid-50 tablet-prefix-25' , 'value' => '1')
 		);
 		
@@ -54,7 +53,7 @@ if( is_page() ) : ?>
 
 <div class="grid-container">
 	
-    <div id="primary" class="grid-parent grid-100 tablet-grid-100 mobile-grid-100 <?php echo $ut_page_skin; ?> <?php echo $ut_page_class; ?>">
+    <div id="primary" class="grid-parent grid-100 tablet-grid-100 mobile-grid-100">
 	    
 		<?php while ( have_posts() ) : the_post(); ?>
     
@@ -106,7 +105,7 @@ if( is_page() ) : ?>
                                 <figcaption class="member-description">
                                     <h3><?php echo $member['ut_member_name']; ?></h3>
                                     <span><?php echo ut_translate_meta( $member['ut_member_title'] ); ?></span>
-                                    <a data-member="<?php echo $member_ID; ?>" href="#" class="ut-member-details ut-show-member-details <?php echo $avatar_style; ?>"><?php esc_html_e('View Details' , 'unitedthemes'); ?><i class="fa fa-arrow-circle-right"></i></a>
+                                    <a data-member="<?php echo $member_ID; ?>" href="#" class="ut-member-details ut-show-member-details <?php echo $avatar_style; ?>"><?php _e('View Details' , 'unitedthemes'); ?><i class="fa fa-arrow-circle-right"></i></a>
                                 </figcaption>
                                     
                             </figure>
@@ -164,14 +163,6 @@ if( is_page() ) : ?>
                                     <h3 class="ut-member-name"><?php echo $member['ut_member_name']; ?></h3>
                                     <span class="ut-member-title"><?php echo ut_translate_meta( $member['ut_member_title'] ); ?></span>
                                     <?php echo apply_filters( 'the_content' , $member['ut_member_description'] ); ?>
-                                    
-                                    <?php if( !empty($member['ut_member_email']) ) : ?>    
-                                        <a class="ut-so-link" href="<?php echo $member['ut_member_email']; ?>"><i class="fa fa-envelope fa-lg"></i></a>
-                                    <?php endif; ?>
-                                    
-                                    <?php if( !empty($member['ut_member_website']) ) : ?>    
-                                        <a class="ut-so-link" href="<?php echo $member['ut_member_website']; ?>"><i class="fa fa-home fa-lg"></i></a>
-                                    <?php endif; ?>
                                     
                                     <?php if( !empty($member['ut_member_facebook']) ) : ?>    
                                         <a class="ut-so-link" href="<?php echo $member['ut_member_facebook']; ?>"><i class="fa fa-facebook fa-lg"></i></a>
@@ -283,14 +274,7 @@ if( is_page() ) : ?>
                                     <span class="ut-member-title"><?php echo ut_translate_meta( $member['ut_member_title'] ); ?></span>
                                     <?php echo apply_filters( 'the_content' , $member['ut_member_description'] ); ?>
                                     
-                                    <div class="member-social">
-                                    <?php if( !empty($member['ut_member_email']) ) : ?>    
-                                        <a href="<?php echo $member['ut_member_email']; ?>"><i class="fa fa-envelope fa-lg"></i></a>
-                                    <?php endif; ?>
-                                    
-                                    <?php if( !empty($member['ut_member_website']) ) : ?>    
-                                        <a href="<?php echo $member['ut_member_website']; ?>"><i class="fa fa-home fa-lg"></i></a>
-                                    <?php endif; ?>
+                                     <div class="member-social">
                     
 									<?php if( !empty($member['ut_member_facebook']) ) : ?>    
                                         <a href="<?php echo $member['ut_member_facebook']; ?>"><i class="fa fa-facebook fa-lg"></i></a>
@@ -337,11 +321,11 @@ if( is_page() ) : ?>
                                     <?php endif; ?>
                                     
                                     <?php if( !empty($member['ut_member_linkedin']) ) : ?>    
-                                        <a href="<?php echo $member['ut_member_linkedin']; ?>"><i class="fa fa-linkedin fa-lg"></i></a>
+                                        <a class="ut-so-link" href="<?php echo $member['ut_member_linkedin']; ?>"><i class="fa fa-linkedin fa-lg"></i></a>
                                     <?php endif; ?> 
                                     
                                     <?php if( !empty($member['ut_member_instagram']) ) : ?>    
-                                        <a href="<?php echo $member['ut_member_instagram']; ?>"><i class="fa fa-instagram fa-lg"></i></a>
+                                        <a class="ut-so-link" href="<?php echo $member['ut_member_instagram']; ?>"><i class="fa fa-instagram fa-lg"></i></a>
                                     <?php endif; ?>
                                     
                                     </div><!-- close member social -->    
@@ -401,7 +385,7 @@ if( is_page() ) : ?>
                                     
                                     <?php if( $avatar_style == 'ut-circle' ) {
                                         
-                                        $member['ut_member_pic'] = ut_resize( $member['ut_member_pic'] , '560' , '640', true , true , true );
+                                        $member['ut_member_pic'] = ut_resize( $member['ut_member_pic'] , '560' , '560', true , true , true );
                                         
                                     } else {
                                         
@@ -409,7 +393,7 @@ if( is_page() ) : ?>
                                     
                                     } ?>
                                     
-                                    <img class="utlazy" src="<?php echo THEME_WEB_ROOT; ?>/images/placeholder/team-member560x640.png" alt="<?php echo $member['ut_member_name']; ?>" data-original="<?php echo $member['ut_member_pic']; ?>">
+                                    <img class="utlazy" src="<?php echo THEME_WEB_ROOT; ?>/images/placeholder/team-member.png" alt="<?php echo $member['ut_member_name']; ?>" data-original="<?php echo $member['ut_member_pic']; ?>">
                                                                     
                                  </figure>
                                  
@@ -417,7 +401,7 @@ if( is_page() ) : ?>
                                         
                                          <?php if( $avatar_style == 'ut-circle' ) {
                                         
-                                        $member['ut_member_pic_alt'] = ut_resize( $member['ut_member_pic_alt'] , '560' , '640', true , true , true );						
+                                        $member['ut_member_pic_alt'] = ut_resize( $member['ut_member_pic_alt'] , '560' , '560', true , true , true );						
                                         
                                     } else {
                                         
@@ -426,7 +410,7 @@ if( is_page() ) : ?>
                                     } ?>
                                     
                                     <figure class="member-photo-style-4-hover">
-                                        
+                                    
                                         <img src="<?php echo $member['ut_member_pic_alt']; ?>" alt="<?php echo $member['ut_member_name']; ?>">
                                     
                                     </figure>
@@ -434,15 +418,7 @@ if( is_page() ) : ?>
                                  <?php endif; ?>
                                  
                                  <div class="member-social">
-                                    
-                                    <?php if( !empty($member['ut_member_email']) ) : ?>    
-                                        <a href="<?php echo $member['ut_member_email']; ?>"><i class="fa fa-envelope fa-lg"></i></a>
-                                    <?php endif; ?>
-                                    
-                                    <?php if( !empty($member['ut_member_website']) ) : ?>    
-                                        <a href="<?php echo $member['ut_member_website']; ?>"><i class="fa fa-home fa-lg"></i></a>
-                                    <?php endif; ?>
-                                    
+                    
 									<?php if( !empty($member['ut_member_facebook']) ) : ?>    
                                         <a href="<?php echo $member['ut_member_facebook']; ?>"><i class="fa fa-facebook fa-lg"></i></a>
                                     <?php endif; ?>
@@ -465,7 +441,8 @@ if( is_page() ) : ?>
                                     
                                     <?php if( !empty($member['ut_member_dribbble']) ) : ?>    
                                         <a href="<?php echo $member['ut_member_dribbble']; ?>"><i class="fa fa-dribbble fa-lg"></i></a>
-                                    <?php endif; ?>
+                                    <?php endif; ?> 
+
                                     
                                     <?php if( !empty($member['ut_member_dropbox']) ) : ?>    
                                         <a href="<?php echo $member['ut_member_dropbox']; ?>"><i class="fa fa-dropbox fa-lg"></i></a>
@@ -488,11 +465,11 @@ if( is_page() ) : ?>
                                     <?php endif; ?>
                                     
                                     <?php if( !empty($member['ut_member_linkedin']) ) : ?>    
-                                        <a href="<?php echo $member['ut_member_linkedin']; ?>"><i class="fa fa-linkedin fa-lg"></i></a>
+                                        <a class="ut-so-link" href="<?php echo $member['ut_member_linkedin']; ?>"><i class="fa fa-linkedin fa-lg"></i></a>
                                     <?php endif; ?> 
                                     
                                     <?php if( !empty($member['ut_member_instagram']) ) : ?>    
-                                        <a href="<?php echo $member['ut_member_instagram']; ?>"><i class="fa fa-instagram fa-lg"></i></a>
+                                        <a class="ut-so-link" href="<?php echo $member['ut_member_instagram']; ?>"><i class="fa fa-instagram fa-lg"></i></a>
                                     <?php endif; ?>
                                     
                                     </div><!-- close member social -->                                
@@ -546,7 +523,7 @@ if( is_page() ) : ?>
 
 
 		<?php foreach ( $team as $key => $member ) : ?>
-        <div id="member_<?php echo $member_ID; ?>" class="ut-modal-box ut-modal-box-effect" data-id="<?php echo $post->post_name; ?>">
+        <div id="member_<?php echo $member_ID; ?>" class="ut-modal-box ut-modal-box-effect <?php echo $ut_section_skin; ?>" data-id="<?php echo $post->post_name; ?>">
         
             <div class="member-detail-box grid-parent grid-100 mobile-grid-100 tablet-grid-100 section-content">
                 
@@ -568,14 +545,6 @@ if( is_page() ) : ?>
                     <!-- member social -->
                     
                     <div class="member-social">
-                    
-                    <?php if( !empty($member['ut_member_email']) ) : ?>    
-                        <a href="<?php echo $member['ut_member_email']; ?>"><i class="fa fa-envelope fa-lg"></i></a>
-                    <?php endif; ?>
-                    
-                    <?php if( !empty($member['ut_member_website']) ) : ?>    
-                        <a href="<?php echo $member['ut_member_website']; ?>"><i class="fa fa-home fa-lg"></i></a>
-                    <?php endif; ?>
                         
                     <?php if( !empty($member['ut_member_facebook']) ) : ?>    
                         <a href="<?php echo $member['ut_member_facebook']; ?>"><i class="fa fa-facebook fa-lg"></i></a>
@@ -622,7 +591,7 @@ if( is_page() ) : ?>
                     <?php endif; ?> 
                     
                     <?php if( !empty($member['ut_member_linkedin']) ) : ?>    
-                        <a href="<?php echo $member['ut_member_linkedin']; ?>"><i class="fa fa-linkedin fa-lg"></i></a>
+                        <a class="ut-so-link" href="<?php echo $member['ut_member_linkedin']; ?>"><i class="fa fa-linkedin fa-lg"></i></a>
                     <?php endif; ?> 
                     
                     </div><!-- close member social -->    

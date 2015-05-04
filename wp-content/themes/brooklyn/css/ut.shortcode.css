@@ -663,7 +663,7 @@ opacity: 1;
 	line-height:100px;
 	text-align:center;
 	margin:0 auto 20px auto;
-    background:#292929;
+	background:rgba(255, 255, 255, 0.15);
 	-webkit-border-radius:50%;
 	-moz-border-radius:50%;
 	border-radius:50%;
@@ -671,9 +671,6 @@ opacity: 1;
 	-webkit-transition:0.2s background linear;
 		-moz-transition:0.2s background linear;
 			transition:0.2s background linear;
-}
-.light .ut-social-icon {
-    background:rgba(255, 255, 255, 0.15);
 }
 .ut-social-icon i {	
 	line-height:100px;
@@ -1175,199 +1172,6 @@ opacity: 1;
     color:#999999;   
 }
 
-/* UNITED THEMES Video Testimonial */
-
-.ut-video-testimonial-wrapper {
-    margin-left:-10px;
-    margin-right:-10px;
-}
-.ut-video-testimonial {
-    margin-bottom:20px; 
-}
-.ut-hero-testimonial .ut-video {
-    margin-bottom:20px;
-}
-.ut-video-testimonial-boxed {
-    padding:20px;
-    -webkit-box-shadow:0 10px 10px rgba(0, 0, 0, 0.25);
-    -moz-box-shadow:0 10px 10px rgba(0, 0, 0, 0.25);
-    box-shadow:0 10px 10px rgba(0, 0, 0, 0.25);
-}
-.ut-video-testimonial-boxed.ut-video-box-dark {
-    background:rgba(0,0,0,0.2);
-    border:1px solid rgba(0,0,0,0.4);
-}
-.ut-video-testimonial-boxed.ut-video-box-light {
-    background:rgba(255,255,255,0.2);
-    border:1px solid rgba(255,255,255,0.4);
-}
-.ut-video-testimonial h3 {
-    margin-bottom:0;
-}
-.ut-load-vtestimonial img {
-    display:block;
-    margin:0 auto 20px auto;
-}
-.ut-load-vtestimonial {
-    position:relative;
-    text-align:center;
-    display:block;
-}
-.ut-load-vtestimonial:before {
-    font-family: 'FontAwesome';
-    content: "\f16a";
-    color:#FFFFFF;
-    display:block;
-    position:absolute;
-    left:50%;
-    top:50%;
-    font-size:40px;
-    width:40px;
-    height:40px;
-    margin-top:-10px;
-    margin-left:-20px;
-}
-
-/* UNITED THEMES Video Shortcode */
-
-.ut-shortcode-video-wrap {
-    position:relative;
-}
-.light .ut-shortcode-video-wrap {
-    -webkit-box-shadow:0 0 40px #000000;
-    -moz-box-shadow:0 0 40px #000000;
-    box-shadow:0 0 40px #000000;
-}
-.ut-video-loading {
-    position:absolute;
-    top:50%;
-    left:50%;
-    color:#222222;
-    margin-left:-20px;
-    margin-top:-20px;
-    display:none;
-}
-.ut-load-video {
-    display:block;
-    width:100%;
-    height:100%;
-    position:relative;
-    cursor:pointer;
-}
-.ut-load-video img {
-    vertical-align:bottom;
-    margin:0 auto;
-    width:100%;
-    display:block;
-}
-.ut-shortcode-video-wrap .ut-video-caption i {
-    position:absolute;
-    bottom:20px;
-    left:20px;
-    -webkit-transition:all 0.2s ease-in-out 0s;
-    -moz-transition:all 0.2s ease-in-out 0s;
-    transition:all 0.2s ease-in-out 0s;
-    color:rgba(255,255,255,0.3);
-    border-color:rgba(255,255,255,0.3);   
-}
-.light .ut-shortcode-video-wrap .ut-video-caption i {
-    background:rgba(0,0,0,0.5);
-}
-.ut-load-video:hover i {
-    color:rgba(255,255,255,1);
-    border-color:rgba(255,255,255,1);
-}
-.ut-shortcode-video-wrap .ut-video-caption {
-	margin-bottom: 20px;
-	max-width: 100%;
-    padding:10px;
-    background:#transparent;
-    border:1px solid;
-}
-.light .ut-shortcode-video-wrap .ut-video-caption {
-    padding:0;
-}
-.dark .ut-shortcode-video-wrap .ut-video-caption {
-    border-color:#DDDDDD;
-}
-.ut-video-caption-text {
-    padding-top:10px;
-}
-.light .ut-video-caption-text {
-    padding:10px;
-    background:rgba(0,0,0,5);
-    color:#999999;
-    border-top:1px solid;
-}
-
-/* UNITED THEMES Section Highlight */
-
-.ut-highlight-section-wrap {
-    margin-bottom:0;
-    margin-left:-10px;
-    margin-right:-10px;  
-}
-.ut-highlight-section-right {
-    text-align:right;
-}
-.ut-highlight-section-right .ut-highlight-section-icon {
-    float:right;
-    margin-right:0;
-    margin-left:20px;   
-}
-.ut-highlight-section-icon {
-    float:left;
-    margin-right:20px;
-    margin-bottom:20px;
-    width:50px;
-    height:50px;
-    line-height:50px;
-    text-align:center;
-    font-size:20px;
-    background:transparent;
-    border:double 1px #008ED6;
-    color:#008ED6;   
-}
-.ut-highlight-section-box h3 {
-    -webkit-transition:0.2s all linear;
-    -moz-transition:0.2s all linear;
-    transition:0.2s all linear;
-    margin-bottom:5px;
-}
-.ut-highlight-section-content {
-    overflow:hidden;
-    margin-bottom:20px;
-}
-.ut-highlight-section-image {
-    margin:0 auto;
-}
-.ut-highlight-section-image.ut-landscape {
-    padding:0 10px;   
-}
-.ut-highlight-section-image.ut-portrait {
-    max-width:250px;
-}
-.ut-highlight-section-image img {
-    width:100%;
-}
-
-/* UNITED THEMES Custom Box */
-
-.ut-custom-box {
-    border:1px solid #a0c3d5;
-    padding:20px;
-}
-.ut-custom-box-content {
-    overflow:hidden;
-    text-align:left;   
-}
-.ut-custom-box-icon {
-    float:left;
-    margin-right:40px;
-    margin-bottom:20px;
-    max-width:320px;   
-}
-
 /* UNITED THEMES CTA */
 
 .cta-btn {
@@ -1518,24 +1322,8 @@ opacity: 1;
 	font-size:30px;
 	margin-bottom:20px;
 }
-.ut-highlight-section-right {
-    text-align: inherit;
-}
-.ut-highlight-section-right .ut-highlight-section-icon {
-    float:left;
-    margin-right:20px;
-    margin-left:0;   
-}
-.ut-highlight-section-image.ut-landscape {
-    padding:0;
-}
-.ut-highlight-section-image {
-    margin:0 auto 40px auto;
-}
-.ut-custom-box-icon {
-    float:none !important;
-    margin-right:0 !important; 
-}
+
+
 }
 
 /* Tablet Landscape */
@@ -1557,44 +1345,11 @@ opacity: 1;
 .ut-rotate-quote-alt .flex-direction-nav {
 	width:75px;
 }
-.ut-highlight-section-image.ut-landscape {
-    padding:0;
+
+
 }
-.ut-custom-box-icon {
-    float:none !important;
-    margin-right:0 !important;
-}
-}
+
 
 .ut-animate-element {
 	visibility:hidden;
-}
-.mejs-container.mejs-video {
-  width: 100% !important;
-  height: auto !important;
-  padding-top: 57%;
-}
-.mejs-overlay, .mejs-poster {
-  width: 100% !important;
-  height: 100% !important;
-}
-.mejs-mediaelement video {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  width: 100% !important;
-  height: 100% !important;
-}
-.pp_pic_holder video { 
-    width: 100%; 
-    height: 100%; 
-    max-width: 100%;
-}
-.pp_pic_holder .wp-video { 
-    width: 100% !important;
-}
-.ut-spacer {
-    width:100%;
-    display:block;
-    min-height:1px;
-    clear:both;   
 }

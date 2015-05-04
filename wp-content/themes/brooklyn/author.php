@@ -26,7 +26,7 @@ $header_style = ot_get_option('ut_global_headline_style'); ?>
      <!-- page header -->
      <div class="grid-70 prefix-15 mobile-grid-100 tablet-grid-100">
      <header class="page-header <?php echo $header_style;?>">
-     	<h1 class="page-title"><span><?php printf( esc_html__( 'All posts by %s', 'unitedthemes' ), '<span class="vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '" title="' . esc_attr( get_the_author() ) . '" rel="me">' . get_the_author() . '</a></span>' ); ?></span></h1>        
+     	<h1 class="page-title"><span><?php printf( __( 'All posts by %s', 'unitedthemes' ), '<span class="vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '" title="' . esc_attr( get_the_author() ) . '" rel="me">' . get_the_author() . '</a></span>' ); ?></span></h1>        
     </header>
     </div><!-- .page-header -->
     
